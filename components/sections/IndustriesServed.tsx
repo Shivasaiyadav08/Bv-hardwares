@@ -1,83 +1,49 @@
-'use client';
-
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import { industries } from '@/lib/data/home';
-import type { Industry } from '@/lib/data/home';
 
 export default function IndustriesServed() {
   return (
-    <section className="bg-[#fafafc] py-14 sm:py-20 lg:py-28 border-b border-slate-200 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-space border-b border-border bg-background">
+      <div className="container-shell">
+        <ScrollReveal>
+          <div className="max-w-3xl">
+            <Badge>Industries</Badge>
+            <h2 className="mt-4 text-[clamp(2rem,4vw,3.5rem)] font-bold leading-[1.06] tracking-[-0.04em] text-foreground">
+              Solutions that fit real operating environments.
+            </h2>
+            <p className="mt-4 text-base leading-7 text-muted-foreground">
+              Barcode, labeling and data-capture requirements differ by workflow. We help match the product category to the actual environment and process.
+            </p>
+          </div>
+        </ScrollReveal>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-10 sm:mb-14"
-        >
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-[11px] sm:text-xs font-mono text-amber-700 font-bold mb-3 sm:mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
-            SECTORS WE SERVE
-          </span>
-          <h2 className="text-h2 font-extrabold text-slate-950 tracking-tight font-display max-w-2xl mx-auto mb-3">
-            Powering Every Industry Segment
-          </h2>
-          <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-            From pharma cold-chain to e-commerce fulfillment — our hardware is field-tested across India&apos;s most demanding verticals.
-          </p>
-        </motion.div>
-
-        {/* Grid — 2 cols mobile, 3 tablet, 4 lg, 5 xl */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 mb-10 sm:mb-12">
-          {(industries as Industry[]).map((industry, idx) => (
-            <motion.div
-              key={industry.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.06 }}
-              className="group relative rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 bg-white card-elevated shadow-sm hover:shadow-lg aspect-square sm:aspect-auto sm:h-48"
-            >
-              <Image
-                src={industry.image}
-                alt={industry.title}
-                fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                className="object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
-
-              {/* Name Badge */}
-              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3">
-                <p className="text-white text-xs sm:text-sm font-bold font-display leading-tight line-clamp-2">
-                  {industry.title}
-                </p>
-                {industry.tag && (
-                  <span className="inline-block mt-1 px-1.5 py-0.5 rounded-full bg-amber-500/90 text-white text-[9px] sm:text-[10px] font-mono font-bold">
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
+          {industries.map((industry, index) => (
+            <ScrollReveal key={industry.title} delay={index * 0.05}>
+              <article className="group relative min-h-[340px] overflow-hidden rounded-[1.55rem] border border-border/90 bg-card shadow-card">
+                <Image
+                  src={industry.image}
+                  alt={industry.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071126] via-[#071126]/58 to-[#071126]/3" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-7">
+                  <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-xs font-semibold backdrop-blur">
                     {industry.tag}
-                  </span>
-                )}
-              </div>
-            </motion.div>
+                    <ArrowUpRight size={13} />
+                  </div>
+                  <h3 className="text-2xl font-bold tracking-[-0.025em]">{industry.title}</h3>
+                  <p className="mt-2 max-w-xl text-sm leading-6 text-slate-300">{industry.description}</p>
+                </div>
+              </article>
+            </ScrollReveal>
           ))}
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <Link href="/contact" className="btn-primary inline-flex w-full sm:w-auto justify-center">
-            <span>Discuss Your Industry Requirements</span>
-            <ArrowRight size={15} />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

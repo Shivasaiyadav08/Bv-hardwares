@@ -1,121 +1,83 @@
-'use client';
-
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
-import { mission, vision, values } from '@/lib/data/about';
+import Link from 'next/link';
+import { ArrowRight, Boxes, LifeBuoy, Workflow } from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
+import { buttonVariants } from '@/components/ui/Button';
+import ScrollReveal from '@/components/ui/ScrollReveal';
+
+const strengths = [
+  {
+    icon: Boxes,
+    title: 'Complete portfolio',
+    copy: 'Hardware, consumables, software and service options planned together.',
+  },
+  {
+    icon: Workflow,
+    title: 'Workflow-first selection',
+    copy: 'Recommendations based on print, scan, media, connectivity and operating needs.',
+  },
+  {
+    icon: LifeBuoy,
+    title: 'Ongoing support',
+    copy: 'Assistance with product selection, setup, consumables and service enquiries.',
+  },
+];
 
 export default function WhoWeAre() {
   return (
-    <section className="bg-white py-14 sm:py-20 lg:py-28 border-b border-slate-200 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-10 sm:mb-14"
-        >
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-[11px] sm:text-xs font-mono text-amber-700 font-bold mb-3 sm:mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
-            WHO WE ARE
-          </span>
-          <h2 className="text-h2 font-extrabold text-slate-950 tracking-tight font-display max-w-2xl mx-auto">
-            Four Decades of Industrial Hardware Mastery
-          </h2>
-        </motion.div>
-
-        {/* Mission / Vision Split */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-12 sm:mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative rounded-2xl p-6 sm:p-8 bg-slate-950 text-white overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
-            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-amber-400 font-bold">Our Mission</span>
-            <p className="mt-3 text-base sm:text-lg font-display font-semibold leading-relaxed text-white/90">
-              {mission}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-amber-50 to-amber-100/40 border border-amber-200/60 overflow-hidden"
-          >
-            <div className="absolute bottom-0 left-0 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
-            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-amber-700 font-bold">Our Vision</span>
-            <p className="mt-3 text-base sm:text-lg font-display font-semibold leading-relaxed text-slate-900">
-              {vision}
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Image + Values */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 items-center">
-          {/* Values */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="order-2 lg:order-1"
-          >
-            <h3 className="text-h3 font-bold text-slate-950 font-display mb-6 sm:mb-8">
-              What Drives Every Deployment
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {values.map((val, idx) => (
-                <motion.div
-                  key={val.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.07 }}
-                  className="flex gap-3 p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-amber-300 hover:bg-amber-50/30 transition-all"
-                >
-                  <CheckCircle size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
-                  <div className="min-w-0">
-                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 font-display">{val.title}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed mt-0.5 line-clamp-3">{val.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Image with Floating Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="order-1 lg:order-2 relative"
-          >
-            <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-lg aspect-[4/3]">
+    <section className="section-space border-b border-border bg-background">
+      <div className="container-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <ScrollReveal direction="right">
+          <div className="relative">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-border/90 bg-muted shadow-[0_30px_80px_-50px_rgba(7,17,38,0.42)]">
               <Image
-                src="/images/showroom.jpg"
-                alt="BV Hardwares Showroom"
+                src="/images/about-cover.jpg"
+                alt="Barcode, labeling and automation solutions"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                className="object-cover transition-transform duration-700 hover:scale-[1.025]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#071126]/68 via-[#071126]/10 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-[#071126]/82 p-4 text-white shadow-xl backdrop-blur-md sm:p-5">
+                <p className="text-sm font-bold">Bhagyashree Ventures</p>
+                <p className="mt-1 text-xs leading-5 text-slate-300">
+                  Barcode, labeling, POS, RFID, software and support solutions from Bengaluru.
+                </p>
+              </div>
             </div>
-            {/* Floating Badge — positioned so it doesn't overflow */}
-            <div className="absolute -bottom-4 -right-0 sm:-right-4 bg-white border border-slate-200 rounded-xl p-3 sm:p-4 shadow-xl max-w-[140px] sm:max-w-none">
-              <p className="text-[10px] sm:text-xs font-mono text-slate-500 uppercase tracking-wide">Established</p>
-              <p className="text-xl sm:text-2xl font-extrabold text-amber-600 font-display">1983</p>
-              <p className="text-[10px] sm:text-xs text-slate-600 font-medium">Bengaluru, KA</p>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal direction="left" delay={0.06}>
+          <div>
+            <Badge className="mb-4">About the business</Badge>
+            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.04em] text-foreground">
+              One partner for identification and labeling workflows.
+            </h2>
+            <p className="prose-copy mt-5">
+              We provide barcode, labeling, POS and automation solutions that help businesses improve accuracy, efficiency and operational control. Our portfolio includes barcode printers, scanners, labels, ribbons, RFID devices, mobile computers, POS hardware and label-design software.
+            </p>
+            <p className="prose-copy mt-4">
+              The focus is practical integration: choosing compatible hardware and media, fitting the solution to the workflow, and supporting the business after deployment.
+            </p>
+
+            <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              {strengths.map(({ icon: Icon, title, copy }) => (
+                <div key={title} className="rounded-2xl border border-border/90 bg-muted/45 p-4 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-1 hover:border-brand-blue/20 hover:bg-brand-blue/[0.035] dark:hover:border-brand-blue-light/20 dark:hover:bg-brand-blue-light/[0.04]">
+                  <Icon size={19} className="text-brand-orange" />
+                  <h3 className="mt-3 text-sm font-bold text-foreground">{title}</h3>
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">{copy}</p>
+                </div>
+              ))}
             </div>
-          </motion.div>
-        </div>
+
+            <div className="mt-8">
+              <Link href="/about" className={buttonVariants({ variant: 'outline' })}>
+                More about Bhagyashree Ventures <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

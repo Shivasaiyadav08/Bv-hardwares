@@ -1,86 +1,45 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { ArrowRight, ShieldCheck, Wrench, Truck, Award, Zap } from 'lucide-react';
+import { Boxes, Building2, Headset, Waypoints } from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import { differentiators } from '@/lib/data/home';
 
-const iconMap: Record<string, React.ReactNode> = {
-  ShieldCheck: <ShieldCheck size={20} />,
-  Wrench: <Wrench size={20} />,
-  Truck: <Truck size={20} />,
-  Award: <Award size={20} />,
-};
+const icons = { Boxes, Building2, Headset, Waypoints };
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-white py-14 sm:py-20 lg:py-28 border-b border-slate-200 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden border-b border-slate-800 bg-[#071126] py-[clamp(3.75rem,7vw,6.5rem)] text-white">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(61,91,210,0.24),transparent_30rem),radial-gradient(circle_at_88%_10%,rgba(243,91,10,0.12),transparent_24rem)]" />
+      <div className="container-shell relative">
+        <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+          <ScrollReveal>
+            <div>
+              <Badge className="border-white/15 bg-white/8 text-blue-200 dark:text-blue-200">Why Bhagyashree Ventures</Badge>
+              <h2 className="mt-4 text-[clamp(2rem,4vw,3.45rem)] font-bold leading-[1.06] tracking-[-0.04em]">
+                Less guesswork. Better-fit solutions.
+              </h2>
+              <p className="mt-5 text-base leading-7 text-slate-300">
+                Our role is to help narrow the options, match hardware with media and software, and give your team a practical path from enquiry to deployment.
+              </p>
+            </div>
+          </ScrollReveal>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-10 sm:mb-14"
-        >
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-[11px] sm:text-xs font-mono text-amber-700 font-bold mb-3 sm:mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
-            WHY BV HARDWARES
-          </span>
-          <h2 className="text-h2 font-extrabold text-slate-950 tracking-tight font-display max-w-2xl mx-auto mb-3 sm:mb-4">
-            The Standard Others Benchmark Against
-          </h2>
-          <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-            Four decades of engineering excellence, OEM-direct supply chains, and an unmatched post-sale commitment.
-          </p>
-        </motion.div>
-
-        {/* Cards — 1 col mobile, 2 tablet, 3 desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {differentiators.map((item, idx) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="group bg-slate-50 rounded-2xl p-5 sm:p-6 border border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 transition-all duration-300 card-elevated"
-            >
-              {/* Icon badge */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-600 mb-4 group-hover:bg-amber-500 group-hover:text-white group-hover:border-amber-500 transition-all duration-300">
-                {iconMap[item.iconName] ?? <Zap size={20} />}
-              </div>
-
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 font-display mb-2">{item.title}</h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">{item.description}</p>
-
-              {item.metric && (
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-amber-200 text-xs font-mono font-bold text-amber-700 max-w-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
-                  <span className="truncate">{item.metric}</span>
-                </div>
-              )}
-            </motion.div>
-          ))}
+          <div className="grid gap-4 sm:grid-cols-2">
+            {differentiators.map((item, index) => {
+              const Icon = icons[item.iconName as keyof typeof icons] ?? Waypoints;
+              return (
+                <ScrollReveal key={item.title} delay={index * 0.05}>
+                  <article className="h-full rounded-[1.35rem] border border-white/10 bg-white/[0.05] p-5 shadow-[0_24px_60px_-46px_rgba(0,0,0,0.8)] backdrop-blur-sm transition-[transform,border-color,background-color] duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.075] sm:p-6">
+                    <div className="inline-flex size-10 items-center justify-center rounded-xl bg-orange-500/12 text-orange-300">
+                      <Icon size={20} />
+                    </div>
+                    <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-400">{item.description}</p>
+                  </article>
+                </ScrollReveal>
+              );
+            })}
+          </div>
         </div>
-
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10 sm:mt-14"
-        >
-          <Link href="/about" className="btn-primary w-full sm:w-auto justify-center">
-            <span>Explore Our Advantage</span>
-            <ArrowRight size={15} />
-          </Link>
-          <Link href="/contact" className="btn-secondary w-full sm:w-auto justify-center">
-            <span>Talk to an Expert</span>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

@@ -1,70 +1,35 @@
 export const mission =
-  'To be the most trusted provider of barcode, labeling, POS and automation hardware solutions in India — empowering businesses with reliable technology, expert guidance and outstanding after-sales service.';
+  'To simplify barcode, labeling, POS and automatic-identification decisions by helping businesses select practical, compatible and reliable solutions for their workflows.';
 
 export const vision =
-  'A future where every business — from a neighbourhood retailer to a large-scale manufacturer — has access to professional-grade labeling and barcode technology that enhances their productivity and competitiveness.';
+  'To be a dependable technology partner for businesses that need better identification, tracking, labeling and point-of-sale operations.';
 
 export const values = [
   {
-    title: 'Integrity',
+    title: 'Clarity',
     description:
-      'We believe in transparent pricing, genuine products and honest advice. What we promise, we deliver.',
-    iconName: 'Shield',
+      'We aim to recommend products around the actual application instead of overwhelming customers with unnecessary options.',
+    iconName: 'Compass',
   },
   {
-    title: 'Excellence',
+    title: 'Reliability',
     description:
-      'From product quality to service response times, we hold ourselves to the highest standards in everything we do.',
-    iconName: 'Star',
+      'We focus on suitable products, compatible consumables and realistic expectations around availability, configuration and support.',
+    iconName: 'ShieldCheck',
   },
   {
     title: 'Partnership',
     description:
-      'We see every client as a long-term partner, not a one-time transaction. Your success is our success.',
+      'We support customers beyond the initial enquiry with product selection, setup requirements, consumables and service assistance.',
     iconName: 'Handshake',
   },
   {
-    title: 'Innovation',
+    title: 'Practical Innovation',
     description:
-      'We continuously explore emerging technologies in barcode, RFID and automation to bring you the best solutions.',
+      'We evaluate barcode, RFID, mobile and software options for where they genuinely improve a business workflow.',
     iconName: 'Lightbulb',
   },
 ];
 
-export const timeline = [
-  {
-    year: '1983',
-    title: 'Founded in Bengaluru',
-    description:
-      'BV Hardwares was established in Bengaluru as a hardware supply company, serving local businesses with basic labeling equipment and dedicated customer service.',
-    image: '/images/journey_1983.png',
-  },
-  {
-    year: '1996',
-    title: 'Expanding Barcode Portfolio',
-    description:
-      'Expanded into thermal printing and barcode technology, partnering with leading international brands to serve growing enterprise and retail clients.',
-    image: '/images/journey_1996.png',
-  },
-  {
-    year: '2005',
-    title: 'Enterprise Solutions & Systems',
-    description:
-      'Launched comprehensive enterprise barcode solutions including software, installation, spare parts and maintenance services for large-scale operations.',
-    image: '/images/journey_2005.png',
-  },
-  {
-    year: '2013',
-    title: 'RFID & Automation Hardware',
-    description:
-      'Entered the RFID and automation segment, supplying RFID printers, readers and tags to aviation, retail, pharmaceutical and logistics clients.',
-    image: '/images/journey_2013.png',
-  },
-  {
-    year: '2024',
-    title: 'Digital Transformation & Cloud',
-    description:
-      'Partnered with NiceLabel and BarTender to offer complete digital labeling ecosystems, combining hardware and software into seamless end-to-end solutions.',
-    image: '/images/journey_2024.png',
-  },
-];
+// Historic milestones from the previous build were removed because they were not sufficiently verified.
+export const timeline: Array<{ year: string; title: string; description: string; image: string }> = [];

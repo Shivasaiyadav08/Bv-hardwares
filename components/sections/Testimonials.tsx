@@ -29,7 +29,7 @@ export default function Testimonials() {
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
             CLIENT TESTIMONIALS
           </span>
-          <h2 className="text-h2 font-extrabold text-slate-950 tracking-tight font-display">
+          <h2 className="text-h2 font-bold text-slate-950 tracking-tight font-display">
             Trusted by India&apos;s Industrial Leaders
           </h2>
         </motion.div>

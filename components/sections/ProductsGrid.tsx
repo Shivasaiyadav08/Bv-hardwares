@@ -1,105 +1,63 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Shield } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
+import { buttonVariants } from '@/components/ui/Button';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import { productHighlights } from '@/lib/data/home';
 
 export default function ProductsGrid() {
   return (
-    <section className="bg-[#fafafc] py-14 sm:py-20 lg:py-28 border-b border-slate-200 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-space border-b border-border bg-muted/30">
+      <div className="container-shell">
+        <ScrollReveal>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <Badge>Product portfolio</Badge>
+              <h2 className="mt-4 text-[clamp(2rem,4vw,3.5rem)] font-bold leading-[1.06] tracking-[-0.04em] text-foreground">
+                Hardware and consumables built around your workflow.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+                Browse the core categories we support. Send us your requirement to confirm the right configuration, current availability and pricing.
+              </p>
+            </div>
+            <Link href="/products" className={buttonVariants({ variant: 'outline' })}>
+              View full catalog <ArrowRight size={16} />
+            </Link>
+          </div>
+        </ScrollReveal>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
-          className="text-center mb-10 sm:mb-14"
-        >
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] sm:text-xs font-mono text-cyan-700 font-bold mb-3 sm:mb-4 max-w-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 flex-shrink-0" />
-            <span>HARDWARE CATALOG</span>
-          </span>
-          <h2 className="text-h2 font-extrabold text-slate-950 tracking-tight font-display mb-3 sm:mb-4">
-            Industrial-Grade Systems
-          </h2>
-          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Precision hardware for barcode printing, label production, and automated data capture — engineered for zero-downtime operations.
-          </p>
-        </motion.div>
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {productHighlights.map((product, idx) => (
-            <motion.div
-              key={product.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.07 }}
-            >
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {productHighlights.map((product, index) => (
+            <ScrollReveal key={product.title} delay={index * 0.045}>
               <Link
                 href={product.href}
-                className="group block bg-white rounded-2xl border border-slate-200 overflow-hidden card-elevated shadow-sm hover:shadow-lg transition-all duration-300"
+                className="group relative block h-full overflow-hidden rounded-[1.45rem] border border-border/90 bg-card shadow-card transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1.5 hover:border-brand-blue/20 hover:shadow-[0_28px_70px_-38px_rgba(18,55,165,0.38)] dark:hover:border-brand-blue-light/25"
               >
-                {/* Image */}
-                <div className="relative h-44 sm:h-52 w-full bg-slate-50 overflow-hidden">
+                <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-brand-blue/35 to-brand-orange/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="relative aspect-[16/10] overflow-hidden border-b border-border/80 bg-[linear-gradient(145deg,#fff_0%,#f7f9fd_100%)] dark:bg-slate-50">
                   <Image
                     src={product.image}
                     alt={product.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-contain p-5 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.045]"
                   />
-                  {product.badge && (
-                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/90 text-white text-[10px] font-mono font-bold">
-                      <Shield size={9} />
-                      {product.badge}
-                    </div>
-                  )}
                 </div>
-
-                {/* Card Body */}
-                <div className="p-4 sm:p-5 border-t border-slate-100">
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 font-display mb-1.5 group-hover:text-amber-700 transition-colors line-clamp-2">
-                    {product.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed mb-3 sm:mb-4 line-clamp-2">
-                    {product.description}
+                <div className="p-5 sm:p-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-blue dark:text-brand-blue-light">
+                    {product.category}
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono text-cyan-600 font-semibold bg-cyan-50 px-2 py-0.5 rounded-full">
-                      {product.category}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs font-bold text-amber-600 group-hover:gap-2 transition-all">
-                      View <ArrowRight size={12} />
-                    </span>
+                  <h3 className="mt-2 text-xl font-bold tracking-[-0.02em] text-foreground">{product.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{product.description}</p>
+                  <div className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-brand-orange">
+                    Explore category <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </ScrollReveal>
           ))}
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-10 sm:mt-14"
-        >
-          <Link href="/products" className="btn-primary w-full sm:w-auto justify-center">
-            <span>Browse Full Catalog</span>
-            <ArrowRight size={15} />
-          </Link>
-          <Link href="/contact" className="btn-secondary w-full sm:w-auto justify-center">
-            <span>Request Custom Quote</span>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

@@ -1,81 +1,71 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { CheckCircle2, ArrowRight, MessageSquare, ShieldCheck } from 'lucide-react';
-import { Product } from '@/lib/data/products';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import type { Product } from '@/lib/data/products';
+import { pricingRequestHref } from '@/lib/site';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const whatsappEnquiry = `https://wa.me/919923311090?text=${encodeURIComponent(
-    `Hello BV Hardwares team, I would like to inquire about specifications and pricing for the ${product.name}.`
-  )}`;
+  const reduceMotion = useReducedMotion();
 
   return (
-    <div className="group flex flex-col bg-white rounded-3xl border border-slate-200/90 hover:border-amber-500/50 overflow-hidden shadow-sm hover:shadow-[0_20px_45px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1.5 flex-1">
-      {/* Product Image Canvas */}
-      <div className="relative h-64 sm:h-72 w-full bg-slate-50 flex items-center justify-center p-6 border-b border-slate-100 overflow-hidden">
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
+      transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={reduceMotion ? undefined : { y: -6 }}
+      className="group relative flex h-full flex-col overflow-hidden rounded-[1.45rem] border border-border/90 bg-card shadow-card transition-[border-color,box-shadow] duration-300 hover:border-brand-blue/20 hover:shadow-[0_28px_70px_-38px_rgba(18,55,165,0.42)] dark:hover:border-brand-blue-light/25"
+    >
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-brand-blue/35 to-brand-orange/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+      <div className="relative aspect-[4/3] overflow-hidden border-b border-border/80 bg-[linear-gradient(145deg,#ffffff_0%,#f7f9fd_100%)] dark:bg-slate-50">
+        {product.group && (
+          <div className="absolute left-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/90 px-2.5 py-1 text-[11px] font-bold text-brand-blue shadow-sm backdrop-blur">
+            <Sparkles size={12} aria-hidden="true" />
+            {product.group}
+          </div>
+        )}
         <Image
           src={product.image}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-contain p-4 group-hover:scale-105 transition-transform duration-500 ease-out"
+          className="object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.045] sm:p-6"
         />
-        
-        <div className="absolute top-3 right-3 bg-white shadow-sm border border-amber-500/30 text-amber-700 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md uppercase tracking-wider flex items-center gap-1">
-          <ShieldCheck size={12} className="text-amber-500" />
-          <span>OEM Verified</span>
-        </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 flex flex-col p-6 sm:p-7 justify-between">
-        <div>
-          <h3 className="text-xl font-bold text-slate-900 font-display group-hover:text-amber-600 transition-colors leading-snug mb-2.5">
-            {product.name}
-          </h3>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 line-clamp-3">
+      <div className="flex flex-1 flex-col p-5 sm:p-5">
+        <h2 className="text-lg font-bold leading-snug tracking-[-0.025em] text-foreground sm:text-xl">
+          {product.name}
+        </h2>
+
+        {product.description && (
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
             {product.description}
           </p>
+        )}
 
-          {/* Specs List */}
-          {product.specs && product.specs.length > 0 && (
-            <div className="mb-6 pt-4 border-t border-slate-100 space-y-2">
-              <p className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
-                Technical Highlights
-              </p>
-              {product.specs.slice(0, 3).map((spec, idx) => (
-                <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
-                  <CheckCircle2 size={13} className="text-cyan-600 flex-shrink-0 mt-0.5" />
-                  <span className="leading-tight">{spec}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Action Triggers */}
-        <div className="grid grid-cols-2 gap-2.5 pt-4 border-t border-slate-100">
+        <div className="mt-auto pt-5">
           <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-white bg-amber-500 hover:bg-amber-600 px-3 py-3 rounded-xl transition-all shadow-sm font-display"
+            href={pricingRequestHref}
+            className="inline-flex items-center gap-1.5 rounded-lg text-sm font-bold text-brand-orange transition-[color,transform] hover:text-brand-orange-strong"
           >
-            <span>Request Quote</span>
-            <ArrowRight size={13} />
+            Get pricing
+            <ArrowRight
+              size={15}
+              className="transition-transform duration-200 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
           </Link>
-          <a
-            href={whatsappEnquiry}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 px-3 py-3 rounded-xl transition-all font-display"
-          >
-            <MessageSquare size={13} className="text-cyan-600" />
-            <span>WhatsApp</span>
-          </a>
         </div>
       </div>
-    </div>
+    </motion.article>
   );
 }

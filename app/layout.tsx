@@ -1,108 +1,137 @@
-import type { Metadata } from 'next';
-import { Space_Grotesk, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Outfit } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp';
-import SmoothScroll from '@/components/layout/SmoothScroll';
+import ThemeProvider from '@/components/theme/ThemeProvider';
+import { siteConfig } from '@/lib/site';
 
-const spaceGrotesk = Space_Grotesk({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-display',
+  variable: '--font-outfit',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-  weight: ['400', '500', '700'],
-});
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#090f1d' },
+  ],
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bvhardwares.in'),
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: 'BV Hardwares | Industrial Barcode, Labeling & Automation Hardware',
-    template: '%s | BV Hardwares',
+    default: 'Bhagyashree Ventures | Barcode, Labeling, RFID & POS Solutions',
+    template: '%s | Bhagyashree Ventures',
   },
-  description:
-    'Powering high-uptime industrial operations since 1983. Bengaluru leading provider of Zebra, Honeywell, Citizen & TSC thermal barcode printers, 2D wireless scanners, RFID encoders, custom label media, and BarTender integration.',
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
   keywords: [
-    'Barcode Printers Bengaluru',
-    'Zebra Printer Dealer Bangalore',
-    'TSC Industrial Label Printer',
-    '2D Barcode Scanner',
-    'RFID Printers India',
-    'Thermal POS Receipt Rolls',
-    'Thermal Transfer Ribbon Wax Resin',
-    'BarTender Enterprise Software Bangalore',
-    'Industrial Labeling Solutions Karnataka',
-    'BV Hardwares Seshadripuram',
+    'barcode printer supplier Bengaluru',
+    'barcode scanner Bengaluru',
+    'RFID solutions Bengaluru',
+    'label printer Bangalore',
+    'thermal transfer ribbon Bengaluru',
+    'POS printer Bengaluru',
+    'barcode labels Bangalore',
+    'automatic identification solutions Karnataka',
+    'Bhagyashree Ventures',
+    'BV Hardwares',
   ],
-  authors: [{ name: 'BV Hardwares' }],
-  creator: 'BV Hardwares',
-  publisher: 'BV Hardwares',
+  alternates: {
+    canonical: '/',
+  },
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: 'BV Hardwares | Industrial Barcode, Labeling & Automation Systems',
-    description:
-      'Authorized supply and certified engineering partner for Zebra, Honeywell, Citizen, TVS, and TSC in Bengaluru, Karnataka.',
-    url: 'https://bvhardwares.in',
-    siteName: 'BV Hardwares',
+    type: 'website',
+    locale: 'en_IN',
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: 'Bhagyashree Ventures | Barcode, Labeling, RFID & POS Solutions',
+    description: siteConfig.shortDescription,
     images: [
       {
-        url: '/images/bv-banner-1.jpg',
+        url: '/images/og-bhagyashree-ventures.png',
         width: 1200,
         height: 630,
-        alt: 'BV Hardwares Industrial Automation Hardware',
+        alt: 'Bhagyashree Ventures — barcode, labeling, RFID and POS solutions',
       },
     ],
-    locale: 'en_IN',
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BV Hardwares | Industrial Barcode & Labeling Hardware',
-    description:
-      'Premier enterprise barcode, RFID, and automated printing hardware provider based in Seshadripuram, Bengaluru.',
-    images: ['/images/bv-banner-1.jpg'],
+    title: 'Bhagyashree Ventures | Barcode, Labeling, RFID & POS Solutions',
+    description: siteConfig.shortDescription,
+    images: ['/images/og-bhagyashree-ventures.png'],
   },
   icons: {
-    icon: '/images/cropped-bvhardware-favicon.jpg',
-    apple: '/images/cropped-bvhardware-favicon.jpg',
+    icon: siteConfig.icon,
+    shortcut: siteConfig.icon,
+    apple: siteConfig.icon,
   },
+  manifest: '/manifest.webmanifest',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const themeBootstrapScript = `
+(() => {
+  try {
+    const saved = localStorage.getItem('bv-theme');
+    const useDark = saved === 'dark' || (saved !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', useDark);
+    document.documentElement.style.colorScheme = useDark ? 'dark' : 'light';
+  } catch (_) {}
+})();`;
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': ['Organization', 'LocalBusiness'],
+    name: siteConfig.name,
+    alternateName: siteConfig.legacyName,
+    url: siteConfig.url,
+    logo: `${siteConfig.url}${siteConfig.logo}`,
+    email: siteConfig.email,
+    telephone: siteConfig.phone.primaryE164,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: `${siteConfig.address.line1}, ${siteConfig.address.line2}`,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.state,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: 'IN',
+    },
+    areaServed: 'India',
+    description: siteConfig.description,
+  };
+
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} scroll-smooth`}
-      data-scroll-behavior="smooth"
-    >
-      <body className="antialiased min-h-screen flex flex-col bg-[#fafafc] text-slate-900 font-sans selection:bg-amber-500 selection:text-white">
-        <SmoothScroll>
+    <html lang="en-IN" className={outfit.variable} suppressHydrationWarning data-scroll-behavior="smooth">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
+      </head>
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <ThemeProvider>
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main>{children}</main>
           <Footer />
           <FloatingWhatsApp />
-        </SmoothScroll>
+        </ThemeProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </body>
     </html>
   );

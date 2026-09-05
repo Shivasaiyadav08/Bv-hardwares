@@ -1,284 +1,296 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, Phone, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import {
+  ArrowRight,
+  ChevronDown,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  X,
+} from 'lucide-react';
+import ThemeToggle from '@/components/theme/ThemeToggle';
+import { buttonVariants } from '@/components/ui/Button';
 import { megaMenuColumns } from '@/lib/data/navigation';
+import { cn } from '@/lib/utils';
+import { pricingRequestHref, siteConfig } from '@/lib/site';
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products', mega: true },
+  { label: 'Partners', href: '/partners' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
-  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const pathname = usePathname();
-  const megaTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reduceMotion = useReducedMotion();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const frame = window.requestAnimationFrame(() => {
+      setMobileOpen(false);
+      setProductsOpen(false);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [mobileOpen]);
 
-  // Close menus when the route changes
-  const [prevPathname, setPrevPathname] = useState(pathname);
-  if (prevPathname !== pathname) {
-    setPrevPathname(pathname);
-    setMobileOpen(false);
-    setMegaOpen(false);
-  }
-
-  const handleMegaEnter = () => {
-    if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
-    setMegaOpen(true);
+  const openProducts = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setProductsOpen(true);
   };
 
-  const handleMegaLeave = () => {
-    megaTimeoutRef.current = setTimeout(() => setMegaOpen(false), 150);
+  const closeProductsSoon = () => {
+    closeTimer.current = setTimeout(() => setProductsOpen(false), 140);
   };
-
-  const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
-    { label: 'Products', href: '/products', hasMega: true },
-    { label: 'Contact', href: '/contact' },
-  ];
 
   return (
     <>
-      {/* Top Bar — hidden on very small screens */}
-      <div className="bg-[#0f172a] text-slate-300 text-xs border-b border-slate-800 hidden sm:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 font-mono min-w-0">
-            <span className="flex items-center gap-1.5 text-amber-400 flex-shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
-              <span>EST. 1983</span>
-            </span>
-            <span className="text-slate-600 flex-shrink-0">&bull;</span>
-            <span className="text-slate-400 truncate hidden md:block">
-              Industrial Barcode, Labeling & Automation Hardware — Bengaluru
-            </span>
+      <div className="border-b border-slate-800/90 bg-[#071126] text-slate-200">
+        <div className="container-shell grid min-h-9 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-[11px] sm:text-xs">
+          <div className="flex min-w-0 items-center gap-2">
+            <MapPin size={13} className="shrink-0 text-orange-400" />
+            <span className="truncate sm:hidden">Bengaluru · Barcode, RFID & POS</span>
+            <span className="hidden truncate sm:inline xl:hidden">Race Course Road, Bengaluru · Barcode, RFID & POS</span>
+            <span className="hidden truncate xl:inline">Race Course Road, Bengaluru · Barcode, labeling, RFID & POS solutions</span>
           </div>
-
-          <div className="flex items-center gap-4 font-mono text-xs flex-shrink-0">
-            <a href="tel:+919923311090" className="flex items-center gap-1 text-slate-300 hover:text-amber-400 transition-colors whitespace-nowrap">
-              <Phone size={12} className="text-amber-400" />
-              <span>+91 99233 11090</span>
+          <div className="flex shrink-0 items-center gap-3 xl:gap-4">
+            <a
+              href={`tel:${siteConfig.phone.primaryE164}`}
+              aria-label={`Call ${siteConfig.phone.primaryDisplay}`}
+              className="inline-flex size-8 items-center justify-center rounded-lg transition-colors hover:bg-white/8 hover:text-orange-300 md:size-auto md:gap-1.5 md:rounded-none md:hover:bg-transparent"
+            >
+              <Phone size={13} />
+              <span className="hidden md:inline">{siteConfig.phone.primaryDisplay}</span>
             </a>
-            <a href="mailto:info@bvhardwares.in" className="hidden lg:flex items-center gap-1 text-slate-300 hover:text-amber-400 transition-colors whitespace-nowrap">
-              <Mail size={12} className="text-cyan-400" />
-              <span>info@bvhardwares.in</span>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="hidden items-center gap-1.5 transition-colors hover:text-orange-300 xl:inline-flex"
+            >
+              <Mail size={13} />
+              {siteConfig.email}
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main Sticky Header */}
-      <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-white/97 backdrop-blur-xl border-b border-slate-200 shadow-md py-2'
-            : 'bg-white/85 backdrop-blur-md border-b border-slate-200/60 py-3'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 border-b border-border/75 bg-background/88 shadow-[0_12px_35px_-32px_rgba(7,17,38,0.65)] backdrop-blur-xl supports-[backdrop-filter]:bg-background/82">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand-blue/20 to-brand-orange/20" />
 
-            {/* Logo */}
-            <Link href="/" className="flex-shrink-0 group focus:outline-none" aria-label="BV Hardwares Home">
-              <div className="p-1 sm:p-1.5 rounded-xl bg-slate-50 border border-slate-200/80 group-hover:border-amber-500/40 transition-colors">
-                <Image
-                  src="/images/bvhardwares-logo-top.png"
-                  alt="BV Hardwares"
-                  width={160}
-                  height={44}
-                  className="h-8 sm:h-9 lg:h-10 w-auto object-contain"
-                  priority
-                />
-              </div>
-            </Link>
+        <div className="container-shell flex h-16 items-center justify-between gap-3 lg:h-[68px] lg:gap-5">
+          <Link
+            href="/"
+            aria-label={`${siteConfig.name} home`}
+            className="group relative inline-flex shrink-0 items-center rounded-xl p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/70"
+          >
+            <span className="pointer-events-none absolute inset-0 rounded-xl bg-brand-blue/0 blur-xl transition-colors duration-300 group-hover:bg-brand-blue/6 dark:group-hover:bg-brand-blue-light/8" />
+            <Image
+              src={siteConfig.mark}
+              alt="BV"
+              width={559}
+              height={385}
+              priority
+              loading="eager"
+              unoptimized
+              sizes="(max-width: 639px) 54px, (max-width: 1023px) 58px, 62px"
+              className="relative h-auto w-[54px] object-contain transition-transform duration-300 group-hover:scale-[1.035] sm:w-[58px] lg:w-[62px]"
+            />
+          </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-0.5 flex-1 justify-center" aria-label="Main Navigation">
-              {navLinks.map((link) => {
-                const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
+            {navLinks.map((item) => {
+              const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+              if (item.mega) {
+                return (
+                  <div
+                    key={item.href}
+                    className="relative"
+                    onMouseEnter={openProducts}
+                    onMouseLeave={closeProductsSoon}
+                  >
+                    <button
+                      type="button"
+                      suppressHydrationWarning
+                      aria-expanded={productsOpen}
+                      aria-haspopup="true"
+                      onClick={() => setProductsOpen((value) => !value)}
+                      onFocus={openProducts}
+                      className={cn(
+                        'inline-flex h-10 items-center gap-1 rounded-xl px-3.5 text-sm font-semibold transition-[background-color,color,transform] duration-200',
+                        active
+                          ? 'bg-brand-blue/7 text-brand-blue dark:bg-brand-blue-light/10 dark:text-brand-blue-light'
+                          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                      )}
+                    >
+                      Products
+                      <ChevronDown
+                        size={15}
+                        className={cn('transition-transform duration-200', productsOpen && 'rotate-180')}
+                      />
+                    </button>
 
-                if (link.hasMega) {
-                  return (
-                    <div key={link.label} className="relative" onMouseEnter={handleMegaEnter} onMouseLeave={handleMegaLeave}>
-                      <button
-                        type="button"
-                        className={`relative px-3 xl:px-4 py-2 text-sm font-display font-semibold rounded-lg transition-colors flex items-center gap-1 cursor-pointer ${
-                          isActive ? 'text-amber-600' : 'text-slate-700 hover:text-slate-950'
-                        }`}
-                      >
-                        <span>{link.label}</span>
-                        <ChevronDown size={14} className={`transition-transform ${megaOpen ? 'rotate-180 text-amber-600' : 'text-slate-400'}`} />
-                        {isActive && (
-                          <motion.span layoutId="navIndicator" className="absolute bottom-0 left-2 right-2 h-[2px] bg-amber-500 rounded-full"
-                            transition={{ type: 'spring', stiffness: 380, damping: 30 }} />
-                        )}
-                      </button>
-
+                    <div className="absolute left-1/2 top-full mt-3 w-[860px] -translate-x-1/2">
                       <AnimatePresence>
-                        {megaOpen && (
+                        {productsOpen && (
                           <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                            initial={reduceMotion ? false : { opacity: 0, y: 8, scale: 0.988 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                            transition={{ duration: 0.18 }}
-                            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[820px] xl:w-[880px] bg-white border border-slate-200 rounded-2xl p-5 shadow-2xl grid grid-cols-4 gap-5"
+                            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.992 }}
+                            transition={{ duration: reduceMotion ? 0.01 : 0.18, ease: [0.22, 1, 0.36, 1] }}
+                            className="relative overflow-hidden rounded-[1.35rem] border border-border/90 bg-card/98 p-5 text-card-foreground shadow-[0_28px_80px_-36px_rgba(7,17,38,0.48)] backdrop-blur-xl"
+                            onMouseEnter={openProducts}
+                            onMouseLeave={closeProductsSoon}
                           >
-                            {megaMenuColumns.map((col) => (
-                              <div key={col.heading} className="space-y-2">
-                                <h4 className="text-[10px] font-mono uppercase tracking-widest text-amber-600 font-bold border-b border-slate-100 pb-1.5">
-                                  {col.heading}
-                                </h4>
-                                <ul className="space-y-0.5">
-                                  {col.items.map((item) => (
-                                    <li key={item.href}>
-                                      <Link href={item.href} onClick={() => setMegaOpen(false)}
-                                        className="block px-2 py-1.5 rounded-lg text-slate-600 hover:text-slate-950 hover:bg-slate-50 text-xs font-medium transition-all">
-                                        {item.label}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            ))}
-                            <div className="col-span-4 mt-1 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                              <div className="flex items-center gap-1.5 text-slate-700 font-medium">
-                                <ShieldCheck size={14} className="text-amber-500" />
-                                <span>Authorized Zebra, Honeywell & TSC Direct Supply</span>
-                              </div>
-                              <Link href="/products" onClick={() => setMegaOpen(false)}
-                                className="text-amber-600 hover:text-amber-700 font-bold flex items-center gap-1 group">
-                                <span>View Full Directory</span>
-                                <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-brand-blue/50 via-brand-blue/20 to-brand-orange/60" />
+                            <div className="grid grid-cols-4 gap-5">
+                              {megaMenuColumns.map((column) => (
+                                <div key={column.heading}>
+                                  <p className="mb-2.5 text-xs font-bold uppercase tracking-[0.12em] text-brand-blue dark:text-brand-blue-light">
+                                    {column.heading}
+                                  </p>
+                                  <ul className="space-y-1">
+                                    {column.items.map((menuItem) => (
+                                      <li key={menuItem.href}>
+                                        <Link
+                                          href={menuItem.href}
+                                          className="block rounded-lg px-2.5 py-2 text-sm text-muted-foreground transition-colors hover:bg-brand-blue/[0.055] hover:text-foreground dark:hover:bg-brand-blue-light/[0.07]"
+                                        >
+                                          {menuItem.label}
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                              <p className="text-sm text-muted-foreground">
+                                Need help selecting a model? Share your use case with our team.
+                              </p>
+                              <Link href="/products" className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-orange transition-colors hover:text-brand-orange-strong">
+                                View all products <ArrowRight size={15} />
                               </Link>
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
-                  );
-                }
-
-                return (
-                  <Link key={link.label} href={link.href}
-                    className={`relative px-3 xl:px-4 py-2 text-sm font-display font-semibold rounded-lg transition-colors ${
-                      isActive ? 'text-amber-600' : 'text-slate-700 hover:text-slate-950'
-                    }`}
-                  >
-                    <span>{link.label}</span>
-                    {isActive && (
-                      <motion.span layoutId="navIndicator" className="absolute bottom-0 left-2 right-2 h-[2px] bg-amber-500 rounded-full"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }} />
-                    )}
-                  </Link>
+                  </div>
                 );
-              })}
-            </nav>
+              }
 
-            {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
-              <a href="tel:+919923311090" className="text-xs font-mono text-slate-600 hover:text-amber-600 transition-colors whitespace-nowrap">
-                +91 99233 11090
-              </a>
-              <Link href="/contact" className="btn-primary py-2 px-4 text-xs">
-                <span>Get Quote</span>
-                <ArrowRight size={13} />
-              </Link>
-            </div>
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'inline-flex h-10 items-center rounded-xl px-3.5 text-sm font-semibold transition-colors',
+                    active
+                      ? 'bg-brand-blue/7 text-brand-blue dark:bg-brand-blue-light/10 dark:text-brand-blue-light'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
 
-            {/* Mobile Controls */}
-            <div className="lg:hidden flex items-center gap-2 flex-shrink-0">
-              <Link href="/contact"
-                className="px-3 py-1.5 rounded-lg bg-amber-500 text-white font-bold text-xs font-display whitespace-nowrap shadow-sm">
-                Quote
-              </Link>
-              <button
-                onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label="Toggle menu"
-                className="p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 hover:bg-slate-200 transition-colors cursor-pointer flex-shrink-0"
-              >
-                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Link
+              href={pricingRequestHref}
+              className={buttonVariants({ className: 'hidden lg:inline-flex' })}
+            >
+              Get Pricing
+              <ArrowRight size={16} />
+            </Link>
+            <button
+              type="button"
+              suppressHydrationWarning
+              aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen((value) => !value)}
+              className="inline-flex size-10 items-center justify-center rounded-xl border border-border bg-background text-foreground transition-colors hover:bg-muted lg:hidden"
+            >
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Drawer */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden bg-white border-t border-slate-100 overflow-hidden shadow-xl max-h-[85vh] overflow-y-auto"
+              initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+              transition={{ duration: reduceMotion ? 0.01 : 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-x-0 top-full max-h-[calc(100dvh-64px)] overflow-y-auto border-b border-border bg-background/98 shadow-2xl backdrop-blur-xl lg:hidden"
             >
-              <div className="px-4 py-5 space-y-1">
-                {/* Quick contact on mobile */}
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 border border-amber-100 mb-3">
-                  <Phone size={14} className="text-amber-600 flex-shrink-0" />
-                  <a href="tel:+919923311090" className="text-sm font-mono font-bold text-amber-700">+91 99233 11090</a>
-                </div>
-
-                <Link href="/" onClick={() => setMobileOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-display font-bold hover:bg-slate-50 ${pathname === '/' ? 'text-amber-600' : 'text-slate-900'}`}>
-                  Home
-                </Link>
-                <Link href="/about" onClick={() => setMobileOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-display font-bold hover:bg-slate-50 ${pathname.startsWith('/about') ? 'text-amber-600' : 'text-slate-900'}`}>
-                  About Us
-                </Link>
-
-                {/* Products Accordion */}
-                <div>
-                  <button type="button" onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-display font-bold text-slate-900 hover:bg-slate-50 cursor-pointer">
-                    <span>Products Catalog</span>
-                    <ChevronDown size={16} className={`transition-transform text-slate-400 ${mobileProductsOpen ? 'rotate-180 text-amber-600' : ''}`} />
+              <div className="container-shell py-5">
+                <nav className="space-y-1" aria-label="Mobile navigation">
+                  <Link href="/" className="block rounded-xl px-3 py-3 font-semibold hover:bg-muted">Home</Link>
+                  <button
+                    type="button"
+                    suppressHydrationWarning
+                    onClick={() => setMobileProductsOpen((value) => !value)}
+                    className="flex w-full items-center justify-between rounded-xl px-3 py-3 font-semibold hover:bg-muted"
+                    aria-expanded={mobileProductsOpen}
+                  >
+                    Products
+                    <ChevronDown size={17} className={cn('transition-transform', mobileProductsOpen && 'rotate-180')} />
                   </button>
-                  {mobileProductsOpen && (
-                    <div className="pl-4 pr-2 pb-2 space-y-0.5 border-l-2 border-amber-200 ml-4 mt-1">
-                      <Link href="/products" onClick={() => setMobileOpen(false)}
-                        className="block text-sm text-amber-600 font-bold py-2 px-2">
-                        All Categories →
-                      </Link>
-                      {megaMenuColumns.flatMap((c) => c.items).map((item) => (
-                        <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
-                          className="block text-xs text-slate-600 hover:text-slate-900 py-1.5 px-2 rounded-lg hover:bg-slate-50">
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                  <AnimatePresence initial={false}>
+                    {mobileProductsOpen && (
+                      <motion.div
+                        initial={reduceMotion ? false : { opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: reduceMotion ? 0.01 : 0.18 }}
+                        className="ml-3 overflow-hidden border-l border-border pl-3"
+                      >
+                        <Link href="/products" className="block rounded-lg px-3 py-2 text-sm font-bold text-brand-orange">All product categories</Link>
+                        {megaMenuColumns.flatMap((column) => column.items).map((item) => (
+                          <Link key={item.href} href={item.href} className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
+                            {item.label}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <Link href="/partners" className="block rounded-xl px-3 py-3 font-semibold hover:bg-muted">Partners</Link>
+                  <Link href="/about" className="block rounded-xl px-3 py-3 font-semibold hover:bg-muted">About</Link>
+                  <Link href="/contact" className="block rounded-xl px-3 py-3 font-semibold hover:bg-muted">Contact</Link>
+                </nav>
 
-                <Link href="/contact" onClick={() => setMobileOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-display font-bold hover:bg-slate-50 ${pathname.startsWith('/contact') ? 'text-amber-600' : 'text-slate-900'}`}>
-                  Contact Us
-                </Link>
-
-                <div className="pt-3 mt-3 border-t border-slate-100">
-                  <Link href="/contact" onClick={() => setMobileOpen(false)}
-                    className="btn-primary w-full py-3 text-sm justify-center">
-                    <span>Request Hardware Quote</span>
-                    <ArrowRight size={15} />
+                <div className="mt-5 grid gap-3 border-t border-border pt-5 sm:grid-cols-2">
+                  <a
+                    href={`tel:${siteConfig.phone.primaryE164}`}
+                    className="flex items-center gap-3 rounded-xl bg-muted px-4 py-3 text-sm font-semibold"
+                  >
+                    <Phone size={18} className="text-brand-orange" />
+                    {siteConfig.phone.primaryDisplay}
+                  </a>
+                  <Link href={pricingRequestHref} className={buttonVariants({ className: 'w-full' })}>
+                    Get Pricing <ArrowRight size={16} />
                   </Link>
                 </div>
-                <p className="text-center text-[10px] font-mono text-slate-400 pb-2">
-                  Seshadripuram, Bengaluru · Mon–Sat 9:30AM–7PM
-                </p>
               </div>
             </motion.div>
           )}

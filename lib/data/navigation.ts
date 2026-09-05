@@ -31,7 +31,7 @@ export const navigation: NavItem[] = [
         href: '/products/wired-scanner',
         children: [
           { label: 'Wired Scanner', href: '/products/wired-scanner' },
-          { label: 'Wireless & Bluetooth', href: '/products/wireless-scanner' },
+          { label: 'Wireless and Bluetooth Scanner', href: '/products/wireless-scanner' },
           { label: 'Tabletop Scanner', href: '/products/tabletop-scanner' },
         ],
       },
@@ -46,6 +46,11 @@ export const navigation: NavItem[] = [
       { label: 'Software', href: '/products/software' },
       { label: 'Service', href: '/products/service' },
     ],
+  },
+  {
+    label: 'Partners',
+    href: '/partners',
+    children: [{ label: 'HPRT', href: '/partners/hprt' }],
   },
   { label: 'Contact Us', href: '/contact' },
 ];
@@ -74,7 +79,7 @@ export const megaMenuColumns = [
     heading: 'Scanners',
     items: [
       { label: 'Wired Scanner', href: '/products/wired-scanner' },
-      { label: 'Wireless & Bluetooth', href: '/products/wireless-scanner' },
+      { label: 'Wireless and Bluetooth Scanner', href: '/products/wireless-scanner' },
       { label: 'Tabletop Scanner', href: '/products/tabletop-scanner' },
     ],
   },
@@ -84,7 +89,7 @@ export const megaMenuColumns = [
       { label: 'HHT / Mobile Device', href: '/products/hht-mobile' },
       { label: 'RFID Device', href: '/products/rfid-device' },
       { label: 'Software', href: '/products/software' },
-      { label: 'Service & Maintenance', href: '/products/service' },
+      { label: 'Service', href: '/products/service' },
     ],
   },
 ];

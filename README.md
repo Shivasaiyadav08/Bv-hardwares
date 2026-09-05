@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bhagyashree Ventures website
 
-## Getting Started
+Next.js website for **Bhagyashree Ventures** (legacy website identity: **BV Hardwares**) covering barcode, labeling, RFID, POS, consumables, software and service enquiries.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 / React 19 / TypeScript
+- Tailwind CSS v4
+- shadcn-style local UI primitives
+- Lucide React icons
+- Outfit via `next/font/google`
+- Light / dark theme support
+- Resend for contact-form email delivery
+
+## Local development
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Before deployment, run:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run lint
+```
 
-## Learn More
+## Contact form environment
 
-To learn more about Next.js, take a look at the following resources:
+Copy the values in `.env.example` into `.env.local` for local testing or into Vercel Project → Settings → Environment Variables for production.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+RESEND_API_KEY=re_xxxxxxxxx
+CONTACT_EMAIL=info@bvhardwares.in
+CONTACT_FROM_EMAIL=website@bvhardwares.in
+CONTACT_SEND_CONFIRMATION=true
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The `CONTACT_FROM_EMAIL` domain must be verified in Resend for production sending. The main enquiry is delivered to `CONTACT_EMAIL`; when `CONTACT_SEND_CONFIRMATION` is not set to `false`, the API also attempts a customer acknowledgement email. The API intentionally reports an error instead of a false success when the main enquiry cannot be sent.
 
-## Deploy on Vercel
+## Production
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The canonical domain in `lib/site.ts` is `https://bvhardwares.in`, matching the currently indexed site and business email domain. The app is configured for normal Next.js/Vercel deployment because the contact API and migration redirects require server-capable routing.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `UPDATE_NOTES.md` for the data audit, migration redirects and pre-launch checklist.

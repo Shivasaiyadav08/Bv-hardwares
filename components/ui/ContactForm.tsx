@@ -1,267 +1,243 @@
 'use client';
 
-import { useState } from 'react';
-import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { FormEvent, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AlertCircle, CheckCircle2, Loader2, MailCheck, Send } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { siteConfig } from '@/lib/site';
+
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+
+const initialForm = {
+  name: '',
+  email: '',
+  phone: '',
+  company: '',
+  productInterest: 'Barcode / Label Printers',
+  volume: '',
+  message: '',
+  website: '',
+};
+
+const fieldClass =
+  'w-full rounded-xl border border-input bg-background/90 px-3.5 py-3 text-sm text-foreground outline-none transition-[border-color,box-shadow,background-color] placeholder:text-muted-foreground/65 focus:border-brand-blue focus:bg-background focus:ring-4 focus:ring-brand-blue/10 dark:focus:border-brand-blue-light';
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    category: 'Industrial Barcode Printers',
-    requirement: '',
-    volume: 'Immediate (1-10 units)',
-  });
+  const reduceMotion = useReducedMotion();
+  const [form, setForm] = useState(initialForm);
+  const [status, setStatus] = useState<FormStatus>('idle');
+  const [feedback, setFeedback] = useState('');
 
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  const update = (name: keyof typeof form, value: string) => {
+    setForm((current) => ({ ...current, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setStatus('loading');
-    setErrorMessage('');
+    setFeedback('');
 
     try {
-      const res = await fetch('/api/contact', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(form),
       });
+      const payload = await response.json().catch(() => ({}));
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to submit inquiry.');
+      if (!response.ok) {
+        throw new Error(payload.error || 'We could not send your enquiry. Please call, WhatsApp or email us instead.');
       }
 
       setStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        category: 'Industrial Barcode Printers',
-        requirement: '',
-        volume: 'Immediate (1-10 units)',
-      });
-    } catch (err) {
+      setFeedback('Thank you. Your enquiry has been emailed to the Bhagyashree Ventures team.');
+      setForm(initialForm);
+    } catch (error) {
       setStatus('error');
-      setErrorMessage(err instanceof Error ? err.message : 'Something went wrong. Please call or WhatsApp us.');
+      setFeedback(error instanceof Error ? error.message : 'Unable to send the enquiry.');
     }
-  };
+  }
 
   return (
-    <div className="relative rounded-3xl p-8 sm:p-10 bg-white border border-slate-200 shadow-[0_20px_50px_rgba(15,23,42,0.06)] overflow-hidden">
-      {/* Decorative Laser Accent Line */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-cyan-500" />
+    <div
+      id="pricing-request"
+      className="relative scroll-mt-28 overflow-hidden rounded-[1.6rem] border border-border/90 bg-card p-5 shadow-[0_26px_70px_-44px_rgba(7,17,38,0.35)] sm:p-7 lg:p-8"
+    >
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-brand-blue/60 via-brand-blue/20 to-brand-orange/65" />
+      <div className="pointer-events-none absolute -right-24 -top-24 size-56 rounded-full bg-brand-blue/[0.06] blur-3xl dark:bg-brand-blue-light/[0.07]" />
 
-      <div className="mb-8">
-        <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-700 block mb-2">
-          Direct RFP / Quotation Form
-        </span>
-        <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-display tracking-tight">
-          Request Technical Proposal
-        </h3>
-        <p className="mt-2 text-sm text-slate-600">
-          Complete the form below. A senior BV Hardwares solutions architect will respond within 4 business hours with certified OEM pricing and hardware availability.
+      <div className="relative max-w-2xl">
+        <div className="inline-flex size-11 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange">
+          <MailCheck size={21} aria-hidden="true" />
+        </div>
+        <p className="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-brand-orange">Product pricing</p>
+        <h2 className="mt-2 text-2xl font-bold tracking-[-0.03em] text-foreground sm:text-3xl">
+          Send your requirement directly to our team.
+        </h2>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+          Tell us the product or application, quantity, delivery location and any known model or connectivity details. The form sends your enquiry to {siteConfig.email}. For urgent enquiries, call {siteConfig.phone.primaryDisplay}.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Full Name */}
-          <div>
-            <label htmlFor="name" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Full Name *
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="e.g. Ramesh Kumar"
-              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all text-sm font-sans"
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <label htmlFor="email" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Corporate Email *
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="ramesh@company.com"
-              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all text-sm font-sans"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Phone */}
-          <div>
-            <label htmlFor="phone" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Phone / WhatsApp Number *
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              required
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="+91 98765 43210"
-              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all text-sm font-sans"
-            />
-          </div>
-
-          {/* Company Name */}
-          <div>
-            <label htmlFor="company" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Company / Entity Name
-            </label>
-            <input
-              type="text"
-              id="company"
-              name="company"
-              value={formData.company}
-              onChange={handleChange}
-              placeholder="e.g. Apex Logistics India"
-              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all text-sm font-sans"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Hardware Category */}
-          <div>
-            <label htmlFor="category" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Primary Requirement Category *
-            </label>
-            <select
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all text-sm font-sans"
-            >
-              <option value="Industrial Barcode Printers">Industrial Barcode Printers (Zebra/TSC)</option>
-              <option value="Handheld Barcode Scanners">Handheld Barcode Scanners (1D/2D)</option>
-              <option value="RFID Printers & Encoders">RFID Printers & Fixed Encoders</option>
-              <option value="Thermal Labels & Substrates">Custom Thermal Labels & Rolls</option>
-              <option value="Thermal Transfer Ribbons">Wax / Resin / Wax-Resin Ribbons</option>
-              <option value="POS Receipt Systems">POS Billing & Receipt Printers</option>
-              <option value="BarTender Software & AMC">BarTender Software / AMC Support</option>
-            </select>
-          </div>
-
-          {/* Deployment Volume */}
-          <div>
-            <label htmlFor="volume" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Estimated Volume / Timeline
-            </label>
-            <select
-              id="volume"
-              name="volume"
-              value={formData.volume}
-              onChange={handleChange}
-              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all text-sm font-sans"
-            >
-              <option value="Immediate (1-10 units)">Immediate (1–10 units)</option>
-              <option value="Medium Fleet (10-50 units)">Medium Fleet (10–50 units)</option>
-              <option value="Enterprise Rollout (50+ units)">Enterprise Rollout (50+ units)</option>
-              <option value="Consumables Bulk Contract">Consumables Bulk Monthly Contract</option>
-              <option value="On-Site Demo in Bengaluru">On-Site Demonstration in Bengaluru</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Message */}
-        <div>
-          <label htmlFor="requirement" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-2">
-            Detailed Application Requirements *
-          </label>
-          <textarea
-            id="requirement"
-            name="requirement"
-            rows={4}
-            required
-            value={formData.requirement}
-            onChange={handleChange}
-            placeholder="Specify label dimensions, daily print volume, substrate conditions (e.g. cold storage, chemical resistance), connectivity (USB/LAN/WiFi)..."
-            className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all text-sm font-sans resize-y"
+      <form className="relative mt-7 space-y-5" onSubmit={handleSubmit} noValidate={false}>
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="website">Website</label>
+          <input
+            id="website"
+            name="website"
+            suppressHydrationWarning
+            tabIndex={-1}
+            autoComplete="off"
+            value={form.website}
+            onChange={(e) => update('website', e.target.value)}
           />
         </div>
 
-        {/* Feedback Messages */}
-        <AnimatePresence>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <label className="text-sm font-semibold text-foreground">
+            Name <span className="text-brand-orange">*</span>
+            <input
+              suppressHydrationWarning
+              className={`${fieldClass} mt-2`}
+              required
+              autoComplete="name"
+              value={form.name}
+              onChange={(e) => update('name', e.target.value)}
+              placeholder="Your name"
+            />
+          </label>
+          <label className="text-sm font-semibold text-foreground">
+            Company
+            <input
+              suppressHydrationWarning
+              className={`${fieldClass} mt-2`}
+              autoComplete="organization"
+              value={form.company}
+              onChange={(e) => update('company', e.target.value)}
+              placeholder="Company name"
+            />
+          </label>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <label className="text-sm font-semibold text-foreground">
+            Email <span className="text-brand-orange">*</span>
+            <input
+              suppressHydrationWarning
+              className={`${fieldClass} mt-2`}
+              type="email"
+              required
+              autoComplete="email"
+              value={form.email}
+              onChange={(e) => update('email', e.target.value)}
+              placeholder="you@company.com"
+            />
+          </label>
+          <label className="text-sm font-semibold text-foreground">
+            Phone / WhatsApp <span className="text-brand-orange">*</span>
+            <input
+              suppressHydrationWarning
+              className={`${fieldClass} mt-2`}
+              type="tel"
+              required
+              autoComplete="tel"
+              value={form.phone}
+              onChange={(e) => update('phone', e.target.value)}
+              placeholder="+91 ..."
+            />
+          </label>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <label className="text-sm font-semibold text-foreground">
+            Product / requirement <span className="text-brand-orange">*</span>
+            <select
+              suppressHydrationWarning
+              className={`${fieldClass} mt-2`}
+              value={form.productInterest}
+              onChange={(e) => update('productInterest', e.target.value)}
+            >
+              <option>Barcode / Label Printers</option>
+              <option>Barcode Scanners</option>
+              <option>Labels & Tags</option>
+              <option>Thermal Transfer Ribbons</option>
+              <option>RFID Printers / Devices</option>
+              <option>HHT / Mobile Computers</option>
+              <option>POS Printers / Rolls</option>
+              <option>Software / Integration</option>
+              <option>Service / Maintenance</option>
+              <option>HPRT Partner Products</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label className="text-sm font-semibold text-foreground">
+            Quantity / timeline
+            <input
+              suppressHydrationWarning
+              className={`${fieldClass} mt-2`}
+              value={form.volume}
+              onChange={(e) => update('volume', e.target.value)}
+              placeholder="e.g. 10 units / this month"
+            />
+          </label>
+        </div>
+
+        <label className="block text-sm font-semibold text-foreground">
+          Requirement details <span className="text-brand-orange">*</span>
+          <textarea
+            suppressHydrationWarning
+            className={`${fieldClass} mt-2 min-h-32 resize-y`}
+            required
+            value={form.message}
+            onChange={(e) => update('message', e.target.value)}
+            placeholder="Model (if known), application, label size/material, daily volume, connectivity, delivery location, or the issue you need solved..."
+          />
+        </label>
+
+        <AnimatePresence mode="wait">
           {status === 'success' && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              key="success"
+              initial={reduceMotion ? false : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center gap-3"
+              role="status"
+              aria-live="polite"
+              className="flex items-start gap-2.5 rounded-xl border border-emerald-500/20 bg-emerald-500/8 p-4 text-sm text-emerald-700 dark:text-emerald-300"
             >
-              <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
-              <span>
-                Inquiry received successfully! A BV Hardwares engineering representative will contact you shortly.
-              </span>
+              <CheckCircle2 size={18} className="mt-0.5 shrink-0" /> {feedback}
             </motion.div>
           )}
-
           {status === 'error' && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              key="error"
+              initial={reduceMotion ? false : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm flex items-center gap-3"
+              role="alert"
+              aria-live="assertive"
+              className="flex items-start gap-2.5 rounded-xl border border-red-500/20 bg-red-500/8 p-4 text-sm text-red-700 dark:text-red-300"
             >
-              <AlertCircle size={18} className="text-red-600 flex-shrink-0" />
-              <span>{errorMessage}</span>
+              <AlertCircle size={18} className="mt-0.5 shrink-0" /> {feedback}
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="w-full btn-primary py-4 text-sm font-bold flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-        >
-          {status === 'loading' ? (
-            <>
-              <Loader2 size={18} className="animate-spin" />
-              <span>Transmitting Inquiry to Bengaluru Sales Desk...</span>
-            </>
-          ) : (
-            <>
-              <span>Transmit Hardware RFQ</span>
-              <Send size={16} />
-            </>
-          )}
-        </button>
-
-        <p className="text-[11px] font-mono text-center text-slate-500">
-          Strict confidentiality guaranteed. We do not share RFQ technical data with third parties.
-        </p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Button
+            type="submit"
+            size="lg"
+            suppressHydrationWarning
+            disabled={status === 'loading'}
+            className="w-full sm:w-auto"
+          >
+            {status === 'loading' ? <Loader2 size={18} className="animate-spin" /> : <Send size={17} />}
+            {status === 'loading' ? 'Sending request…' : 'Send enquiry by email'}
+          </Button>
+          <p className="text-xs leading-5 text-muted-foreground">
+            We use the submitted details only to respond to your enquiry.
+          </p>
+        </div>
       </form>
     </div>
   );

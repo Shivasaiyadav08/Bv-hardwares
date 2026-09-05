@@ -1,167 +1,157 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import {
+  ArrowUpRight,
+  Building2,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  ShieldCheck,
+} from 'lucide-react';
 import PageHero from '@/components/sections/PageHero';
 import ContactForm from '@/components/ui/ContactForm';
 import ScrollReveal from '@/components/ui/ScrollReveal';
-import { MapPin, Phone, Mail, Clock, MessageSquare, ExternalLink, ShieldCheck, Sparkles } from 'lucide-react';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
+import { buttonVariants } from '@/components/ui/Button';
+import { googleMapsSearchUrl, siteConfig, whatsappUrl } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contact Engineering Desk | BV Hardwares Bengaluru',
+  title: 'Contact Us',
   description:
-    'Reach BV Hardwares at our Seshadripuram, Bengaluru facility. Phone: +91 99233 11090, Email: info@bvhardwares.in. Inquire about industrial printers, scanner fleets, and custom label slitting.',
+    'Contact Bhagyashree Ventures in Bengaluru for barcode printers, scanners, RFID, POS, labels, ribbons, software and service enquiries.',
+  alternates: { canonical: '/contact' },
 };
 
-export default function ContactPage() {
-  const contactDetails = [
-    {
-      icon: MapPin,
-      title: 'Bengaluru Facility',
-      line1: 'No 17, Ground Floor, 1st Cross,',
-      line2: 'Anjaneya Temple Street, Seshadripuram,',
-      line3: 'Bengaluru – 560020, Karnataka',
-      actionLabel: 'Open in Google Maps',
-      actionUrl:
-        'https://www.google.com/maps/search/?api=1&query=No+17+Ground+Floor+1st+Cross+Anjaneya+Temple+Street+Seshadripuram+Bengaluru+560020',
-      accent: 'text-amber-600',
-    },
-    {
-      icon: Phone,
-      title: 'Telephone & Sales',
-      line1: '+91 99233 11090',
-      line2: 'Monday to Saturday',
-      line3: '9:30 AM – 7:00 PM IST',
-      actionLabel: 'Call Desk Directly',
-      actionUrl: 'tel:+919923311090',
-      accent: 'text-amber-600',
-    },
-    {
-      icon: Mail,
-      title: 'Corporate Email',
-      line1: 'info@bvhardwares.in',
-      line2: 'For RFQs, AMC contracts,',
-      line3: 'and corporate billing inquiries',
-      actionLabel: 'Send Email',
-      actionUrl: 'mailto:info@bvhardwares.in',
-      accent: 'text-cyan-700',
-    },
-    {
-      icon: MessageSquare,
-      title: 'WhatsApp Desk',
-      line1: '+91 99233 11090',
-      line2: 'Product datasheets, sample tests',
-      line3: '& rapid price estimates',
-      actionLabel: 'Message on WhatsApp',
-      actionUrl: 'https://wa.me/919923311090',
-      accent: 'text-cyan-700',
-    },
-  ];
+const contactChannels = [
+  {
+    icon: Phone,
+    title: 'Call us',
+    value: siteConfig.phone.primaryDisplay,
+    detail: 'For product pricing and support enquiries',
+    href: `tel:${siteConfig.phone.primaryE164}`,
+    action: 'Call sales desk',
+  },
+  {
+    icon: Mail,
+    title: 'Email',
+    value: siteConfig.email,
+    detail: 'Website enquiries are delivered to this mailbox',
+    href: `mailto:${siteConfig.email}`,
+    action: 'Send an email',
+  },
+  {
+    icon: MessageCircle,
+    title: 'WhatsApp',
+    value: siteConfig.phone.primaryDisplay,
+    detail: 'Share your model, application or requirement',
+    href: whatsappUrl('Hello Bhagyashree Ventures, I would like help with a product requirement.'),
+    action: 'Start a conversation',
+  },
+  {
+    icon: MapPin,
+    title: 'Bengaluru office',
+    value: 'Race Course Road, Madhavnagar',
+    detail: 'Bengaluru – 560001, Karnataka',
+    href: googleMapsSearchUrl,
+    action: 'Open in Google Maps',
+  },
+];
 
+export default function ContactPage() {
   return (
     <>
       <PageHero
-        title="Connect With Our Engineering Desk"
-        subtitle="Consult directly with our specialists for hardware configurations, barcode scanner testing, and custom media quotations."
-        breadcrumbs={[{ label: 'Contact Us' }]}
+        eyebrow="Contact"
+        title="Tell us what needs to be printed, scanned, tagged or tracked."
+        subtitle="Send the requirement through the form and it will be emailed directly to our team. You can also call or WhatsApp us for urgent product enquiries."
+        breadcrumbs={[{ label: 'Contact' }]}
       />
 
-      <section className="py-12 sm:py-16 lg:py-24 bg-[#fafafc] relative overflow-hidden border-b border-slate-200/70">
-        <div className="absolute inset-0 laser-grid opacity-15 pointer-events-none" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* 4 Contact Channel Cards — 1 col mobile, 2 col tablet, 4 col desktop */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-16 lg:mb-20">
-            {contactDetails.map((detail, idx) => (
-              <ScrollReveal key={detail.title} delay={idx * 0.08}>
-                <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 border border-slate-200/90 hover:border-amber-500/50 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full flex flex-col justify-between group">
-                  <div>
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 ${detail.accent} flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform flex-shrink-0`}>
-                      <detail.icon size={20} />
-                    </div>
-                    <h3 className="text-sm sm:text-base lg:text-lg font-bold text-slate-900 font-display mb-2">
-                      {detail.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-snug break-all">
-                      {detail.line1}
-                    </p>
-                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">{detail.line2}</p>
-                    <p className="text-xs text-slate-600 leading-relaxed">{detail.line3}</p>
-                  </div>
-
-                  <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-100">
+      <section className="section-space border-b border-border bg-background">
+        <div className="container-shell">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {contactChannels.map((channel, index) => {
+              const Icon = channel.icon;
+              const external = channel.href.startsWith('http');
+              return (
+                <ScrollReveal key={channel.title} delay={index * 0.045}>
+                  <Card className="group relative flex h-full flex-col overflow-hidden p-5 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-brand-blue/20 hover:shadow-[0_24px_56px_-38px_rgba(18,55,165,0.34)] sm:p-6 dark:hover:border-brand-blue-light/20">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-brand-blue/45 to-brand-orange/45 opacity-0 transition-opacity group-hover:opacity-100" />
+                    <span className="grid size-11 place-items-center rounded-xl bg-brand-blue/10 text-brand-blue dark:bg-brand-blue-light/10 dark:text-brand-blue-light">
+                      <Icon size={20} aria-hidden="true" />
+                    </span>
+                    <p className="mt-5 text-sm font-semibold text-muted-foreground">{channel.title}</p>
+                    <p className="mt-1 break-words text-lg font-bold tracking-[-0.02em] text-foreground">{channel.value}</p>
+                    <p className="mt-2 min-h-10 text-sm leading-6 text-muted-foreground">{channel.detail}</p>
                     <a
-                      href={detail.actionUrl}
-                      target={detail.actionUrl.startsWith('http') ? '_blank' : undefined}
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-700 hover:text-amber-800 transition-colors"
+                      href={channel.href}
+                      target={external ? '_blank' : undefined}
+                      rel={external ? 'noreferrer' : undefined}
+                      className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-blue transition hover:text-brand-orange dark:text-brand-blue-light"
                     >
-                      <span>{detail.actionLabel}</span>
-                      <ExternalLink size={11} />
+                      {channel.action} <ArrowUpRight size={15} aria-hidden="true" />
                     </a>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
+                  </Card>
+                </ScrollReveal>
+              );
+            })}
           </div>
 
-          {/* Form & Facility Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,.65fr)] lg:gap-10">
+            <ScrollReveal>
+              <ContactForm />
+            </ScrollReveal>
 
-            {/* Form (7 cols) */}
-            <div className="lg:col-span-7">
-              <ScrollReveal>
-                <ContactForm />
+            <div className="space-y-5">
+              <ScrollReveal delay={0.06}>
+                <Card className="p-6 sm:p-7">
+                  <Badge>Office details</Badge>
+                  <div className="mt-5 flex gap-3">
+                    <span className="mt-0.5 grid size-10 shrink-0 place-items-center rounded-xl bg-brand-orange/10 text-brand-orange">
+                      <Building2 size={19} aria-hidden="true" />
+                    </span>
+                    <div>
+                      <h2 className="text-xl font-bold tracking-[-0.025em] text-foreground">{siteConfig.address.company}</h2>
+                      <address className="mt-3 not-italic text-sm leading-7 text-muted-foreground">
+                        {siteConfig.address.line1}<br />
+                        {siteConfig.address.line2}<br />
+                        {siteConfig.address.city} – {siteConfig.address.postalCode}, {siteConfig.address.state}<br />
+                        {siteConfig.address.country}
+                      </address>
+                    </div>
+                  </div>
+                  <a
+                    href={googleMapsSearchUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={buttonVariants({ variant: 'outline', className: 'mt-6 w-full' })}
+                  >
+                    <MapPin size={16} aria-hidden="true" /> Open in Google Maps
+                  </a>
+                </Card>
               </ScrollReveal>
-            </div>
 
-            {/* Facility Info (5 cols) */}
-            <div className="lg:col-span-5 space-y-6 sm:space-y-8">
-              <ScrollReveal delay={0.15}>
-                <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 lg:p-8 bg-white border border-slate-200/90 shadow-sm">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-800 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-widest mb-3 sm:mb-4 max-w-full">
-                    <Sparkles size={11} className="flex-shrink-0" />
-                    <span>Hardware Demonstration Hub</span>
-                  </div>
-
-                  <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 font-display mb-3 sm:mb-4">
-                    Visit Our Seshadripuram Facility
-                  </h4>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 sm:mb-6">
-                    Our Bengaluru facility houses an active hardware testing lab, printer demonstration center, and custom label inventory. We welcome operations leaders and engineers for live machine trials with their actual label materials.
-                  </p>
-
-                  <div className="space-y-3 text-xs font-mono text-slate-600 pb-5 sm:pb-6 border-b border-slate-100">
-                    <div className="flex items-start gap-2.5">
-                      <Clock size={14} className="text-amber-600 flex-shrink-0 mt-0.5" />
-                      <span><strong>Hours:</strong> Mon – Sat: 9:30 AM to 7:00 PM</span>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <MapPin size={14} className="text-amber-600 flex-shrink-0 mt-0.5" />
-                      <span><strong>Landmark:</strong> Near Anjaneya Temple, Seshadripuram</span>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <ShieldCheck size={14} className="text-cyan-600 flex-shrink-0 mt-0.5" />
-                      <span><strong>Demo:</strong> Zebra, Honeywell, TSC Live Printing</span>
+              <ScrollReveal delay={0.1}>
+                <Card className="border-brand-blue/15 bg-brand-blue/[0.045] p-6 sm:p-7 dark:border-brand-blue-light/15 dark:bg-brand-blue-light/[0.055]">
+                  <div className="flex items-start gap-3">
+                    <ShieldCheck className="mt-0.5 shrink-0 text-brand-blue dark:text-brand-blue-light" size={21} aria-hidden="true" />
+                    <div>
+                      <h2 className="font-bold text-foreground">Help us price the right setup.</h2>
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                        Include the model if you know it. Otherwise tell us the application, expected print or scan volume, label or ribbon type, connectivity and any software requirement.
+                      </p>
                     </div>
                   </div>
-
-                  {/* Google Map */}
-                  <div className="mt-4 sm:mt-6 rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 h-48 sm:h-64 relative bg-slate-100">
-                    <iframe
-                      title="BV Hardwares Bengaluru Location Map"
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.643329061482!2d77.57467617490074!3d12.994646787322971!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae163c467a8ec9%3A0xe54d3509b5a88c7f!2sSeshadripuram%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1709440000000!5m2!1sen!2sin"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen={false}
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                    />
-                  </div>
-                </div>
+                </Card>
               </ScrollReveal>
-            </div>
 
+              <p className="px-1 text-xs leading-5 text-muted-foreground">
+                By submitting the form you agree that we may use the information you provide to respond to your enquiry. See our{' '}
+                <Link href="/privacy" className="font-semibold text-foreground underline underline-offset-4">Privacy Policy</Link>.
+              </p>
+            </div>
           </div>
         </div>
       </section>

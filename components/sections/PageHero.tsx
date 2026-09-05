@@ -1,8 +1,7 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 interface PageHeroProps {
   title: string;
@@ -12,73 +11,41 @@ interface PageHeroProps {
 }
 
 export default function PageHero({ title, subtitle, eyebrow, breadcrumbs }: PageHeroProps) {
-  const defaultBreadcrumbs = [
+  const crumbs = [
     { label: 'Home', href: '/' },
-    { label: title },
+    ...(breadcrumbs ?? [{ label: title }]),
   ];
 
-  const crumbs = breadcrumbs ?? defaultBreadcrumbs;
-
   return (
-    <section className="relative bg-gradient-to-b from-white to-slate-100/80 border-b border-slate-200 overflow-hidden">
-      {/* Laser Grid */}
-      <div className="absolute inset-0 laser-grid opacity-20 pointer-events-none" />
-      {/* Glow */}
-      <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-64 sm:w-96 h-40 bg-amber-400/8 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20">
-        {/* Breadcrumbs */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-[11px] sm:text-xs font-mono text-slate-400 mb-4 sm:mb-6 flex-wrap">
-          {crumbs.map((crumb, idx) => (
-            <span key={idx} className="flex items-center gap-1 min-w-0">
-              {idx > 0 && <ChevronRight size={10} className="text-slate-300 flex-shrink-0" />}
-              {crumb.href && idx < crumbs.length - 1 ? (
-                <Link href={crumb.href} className="hover:text-amber-600 transition-colors truncate">
-                  {crumb.label}
-                </Link>
+    <section className="brand-surface relative overflow-hidden border-b border-border">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-brand-blue/35 via-transparent to-brand-orange/45" />
+      <div className="container-shell relative py-12 sm:py-14 lg:py-16">
+        <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+          {crumbs.map((crumb, index) => (
+            <span key={`${crumb.label}-${index}`} className="inline-flex items-center gap-1.5">
+              {index > 0 && <ChevronRight size={13} className="text-muted-foreground/60" />}
+              {crumb.href && index < crumbs.length - 1 ? (
+                <Link href={crumb.href} className="transition-colors hover:text-foreground">{crumb.label}</Link>
               ) : (
-                <span className={`${idx === crumbs.length - 1 ? 'text-amber-600 font-bold' : ''} truncate`}>
-                  {crumb.label}
-                </span>
+                <span className={index === crumbs.length - 1 ? 'font-semibold text-foreground' : ''}>{crumb.label}</span>
               )}
             </span>
           ))}
         </nav>
 
-        {/* Eyebrow */}
-        {eyebrow && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-[11px] sm:text-xs font-mono text-amber-700 font-bold mb-3 sm:mb-4 max-w-full"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
-            <span className="truncate">{eyebrow}</span>
-          </motion.div>
-        )}
-
-        {/* Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-h1 font-extrabold text-slate-950 tracking-tight font-display max-w-3xl"
-        >
-          {title}
-        </motion.h1>
-
-        {/* Subtitle */}
-        {subtitle && (
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-3 sm:mt-4 text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl font-sans"
-          >
-            {subtitle}
-          </motion.p>
-        )}
+        <ScrollReveal>
+          <div>
+            {eyebrow && <Badge className="mb-4">{eyebrow}</Badge>}
+            <h1 className="max-w-4xl text-[clamp(2.3rem,5vw,4.6rem)] font-bold leading-[1.02] tracking-[-0.045em] text-foreground">
+              {title}
+            </h1>
+            {subtitle && (
+              <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+                {subtitle}
+              </p>
+            )}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

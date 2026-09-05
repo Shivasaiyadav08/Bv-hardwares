@@ -20,7 +20,7 @@ export default function AboutTimeline() {
               <Sparkles size={13} />
               <span>Institutional Evolution</span>
             </div>
-            <h2 className="text-display-2xl font-extrabold text-slate-950 tracking-tight leading-tight font-display">
+            <h2 className="text-display-2xl font-bold text-slate-950 tracking-tight leading-tight font-display">
               Four Decades of Engineering Milestones
             </h2>
             <p className="mt-4 text-lead text-slate-600 leading-relaxed">
