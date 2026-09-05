@@ -76,7 +76,7 @@ export const productHighlights = [
     title: 'POS Systems',
     description:
       'Receipt printers and related point-of-sale hardware for retail, hospitality and billing environments.',
-    image: '/images/pos-systems.jpg',
+    image: '/images/pos-systems-receipt-printer-v2.webp',
     href: '/products/pos-printer',
     category: 'Point of Sale',
   },

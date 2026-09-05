@@ -8,8 +8,6 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
   ChevronDown,
-  Mail,
-  MapPin,
   Menu,
   Phone,
   X,
@@ -62,34 +60,6 @@ export default function Header() {
 
   return (
     <>
-      <div className="border-b border-slate-800/90 bg-[#071126] text-slate-200">
-        <div className="container-shell grid min-h-9 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-[11px] sm:text-xs">
-          <div className="flex min-w-0 items-center gap-2">
-            <MapPin size={13} className="shrink-0 text-orange-400" />
-            <span className="truncate sm:hidden">Bengaluru · Barcode, RFID & POS</span>
-            <span className="hidden truncate sm:inline xl:hidden">Race Course Road, Bengaluru · Barcode, RFID & POS</span>
-            <span className="hidden truncate xl:inline">Race Course Road, Bengaluru · Barcode, labeling, RFID & POS solutions</span>
-          </div>
-          <div className="flex shrink-0 items-center gap-3 xl:gap-4">
-            <a
-              href={`tel:${siteConfig.phone.primaryE164}`}
-              aria-label={`Call ${siteConfig.phone.primaryDisplay}`}
-              className="inline-flex size-8 items-center justify-center rounded-lg transition-colors hover:bg-white/8 hover:text-orange-300 md:size-auto md:gap-1.5 md:rounded-none md:hover:bg-transparent"
-            >
-              <Phone size={13} />
-              <span className="hidden md:inline">{siteConfig.phone.primaryDisplay}</span>
-            </a>
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="hidden items-center gap-1.5 transition-colors hover:text-orange-300 xl:inline-flex"
-            >
-              <Mail size={13} />
-              {siteConfig.email}
-            </a>
-          </div>
-        </div>
-      </div>
-
       <header className="sticky top-0 z-50 border-b border-border/75 bg-background/88 shadow-[0_12px_35px_-32px_rgba(7,17,38,0.65)] backdrop-blur-xl supports-[backdrop-filter]:bg-background/82">
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand-blue/20 to-brand-orange/20" />
 

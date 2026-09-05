@@ -53,3 +53,17 @@
 - Parsed all 54 TypeScript / TSX files using the TypeScript compiler API: 0 syntax errors.
 - Checked 154 local `/images/...` source references: 0 missing.
 - `npm ci --offline` could not complete because the environment npm cache is missing `zod-validation-error@4.0.2`; a full Next.js build therefore was not run in this environment.
+
+## Product card + industry image refinement
+
+- Restyled BV product cards to the new premium reference direction: cleaner image stage, model chip where appropriate, product-type eyebrow, stronger title hierarchy, verified spec chips, orange Get Pricing CTA, and View details action.
+- Spec chips are only shown when verified product-detail data exists; no popularity, distributor-status, or technical claims were invented.
+- Replaced Retail, Logistics & Warehousing, Pharma & Chemicals, and Aviation & Transport industry imagery with the user-supplied visuals.
+- Industry images use new v3 asset filenames to avoid stale Next/Vercel image cache results.
+
+## Homepage hero motion update
+- Added staggered entrance motion for the hero badge, headline, copy, capabilities and CTAs.
+- Added a restrained floating motion to the product portfolio visual.
+- Added subtle animated orbit rings/dots and breathing background glows.
+- Added hover lift on hero CTAs and icon micro-interactions.
+- Existing reduced-motion accessibility rules disable these animations for users who prefer reduced motion.

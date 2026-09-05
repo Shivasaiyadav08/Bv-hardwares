@@ -194,6 +194,123 @@ body {
   scrollbar-width: none;
 }
 
+
+/* Homepage hero motion: subtle, deliberate and layout-safe. */
+@keyframes hero-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -9px, 0) rotate(-0.35deg); }
+}
+
+@keyframes hero-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hero-orbit-spin-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes hero-glow-breathe {
+  0%, 100% { opacity: 0.72; transform: scale(0.96); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes hero-capability-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-visual-float {
+  animation: hero-float 7s ease-in-out infinite;
+  transform-origin: 52% 58%;
+  will-change: transform;
+}
+
+.hero-glow-blue,
+.hero-glow-orange {
+  animation: hero-glow-breathe 6s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.hero-glow-orange {
+  animation-delay: -2.4s;
+}
+
+.hero-orbit {
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  border: 1px solid color-mix(in srgb, #1237a5 18%, transparent);
+  border-radius: 9999px;
+  opacity: 0.72;
+}
+
+.hero-orbit-one {
+  inset: 12% 3% 14% 11%;
+}
+
+.hero-orbit-two {
+  inset: 21% 11% 22% 19%;
+  border-color: color-mix(in srgb, #f35b0a 20%, transparent);
+}
+
+.hero-orbit-runner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.hero-orbit-runner-blue {
+  animation: hero-orbit-spin 13s linear infinite;
+}
+
+.hero-orbit-runner-orange {
+  animation: hero-orbit-spin-reverse 10s linear infinite;
+}
+
+.hero-orbit-dot {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.72), 0 5px 18px rgba(7, 17, 38, 0.16);
+}
+
+.hero-orbit-dot-blue {
+  background: #2563eb;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.10), 0 0 22px rgba(37, 99, 235, 0.34);
+}
+
+.hero-orbit-dot-orange {
+  background: #f35b0a;
+  box-shadow: 0 0 0 6px rgba(243, 91, 10, 0.10), 0 0 22px rgba(243, 91, 10, 0.32);
+}
+
+.hero-capability {
+  opacity: 0;
+  animation: hero-capability-in 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-capability svg {
+  transition: transform 220ms ease;
+}
+
+.hero-capability:hover svg {
+  transform: scale(1.12) rotate(-5deg);
+}
+
+.hero-cta {
+  transition: transform 220ms ease, box-shadow 220ms ease, background-color 220ms ease, border-color 220ms ease;
+}
+
+.hero-cta:hover {
+  transform: translateY(-2px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

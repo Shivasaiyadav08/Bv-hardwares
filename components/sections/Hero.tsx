@@ -19,43 +19,69 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-brand-blue/35 via-transparent to-brand-orange/45" />
 
       <div className="container-shell relative grid items-center gap-8 py-10 sm:py-14 lg:grid-cols-[1.02fr_.98fr] lg:gap-8 lg:py-16 xl:gap-10 xl:py-20">
-        <ScrollReveal>
-          <div className="max-w-3xl">
+        <div className="max-w-3xl">
+          <ScrollReveal delay={0.02}>
             <Badge className="mb-4">Barcode · Labeling · RFID · POS</Badge>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.09}>
             <h1 className="max-w-3xl text-[clamp(2.55rem,5vw,4.95rem)] font-bold leading-[1.01] tracking-[-0.05em] text-foreground">
               Smart labeling.
               <span className="block brand-gradient-text">Seamless operations.</span>
             </h1>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.16}>
             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
               Bhagyashree Ventures helps businesses source and implement barcode, labeling, RFID and POS solutions with the hardware, consumables, software and support needed for practical operations.
             </p>
+          </ScrollReveal>
 
+          <ScrollReveal delay={0.23}>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
-              {capabilityItems.map((item) => (
-                <div key={item} className="flex items-center gap-2.5 text-sm font-medium text-foreground/85">
+              {capabilityItems.map((item, index) => (
+                <div
+                  key={item}
+                  className="hero-capability flex items-center gap-2.5 text-sm font-medium text-foreground/85"
+                  style={{ animationDelay: `${0.3 + index * 0.07}s` }}
+                >
                   <CheckCircle2 size={17} className="shrink-0 text-brand-orange" />
                   {item}
                 </div>
               ))}
             </div>
+          </ScrollReveal>
 
+          <ScrollReveal delay={0.34}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/products" className={buttonVariants({ size: 'lg', className: 'group' })}>
+              <Link href="/products" className={buttonVariants({ size: 'lg', className: 'group hero-cta' })}>
                 Explore Products
                 <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
               </Link>
-              <Link href={pricingRequestHref} className={buttonVariants({ variant: 'outline', size: 'lg' })}>
+              <Link href={pricingRequestHref} className={buttonVariants({ variant: 'outline', size: 'lg', className: 'hero-cta' })}>
                 Get Pricing
               </Link>
             </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
 
-        <ScrollReveal direction="left" delay={0.08}>
+        <ScrollReveal direction="left" delay={0.12}>
           <div className="relative mx-auto w-full max-w-[690px] lg:mx-0 lg:ml-auto lg:-mr-4 xl:-mr-8">
-            <div className="pointer-events-none absolute left-[10%] top-[12%] h-[68%] w-[72%] rounded-full bg-brand-blue/10 blur-[80px] dark:bg-brand-blue-light/8" />
-            <div className="pointer-events-none absolute bottom-[11%] right-[7%] h-[35%] w-[36%] rounded-full bg-brand-orange/10 blur-[70px]" />
-            <div className="relative aspect-[4/3]">
+            <div className="hero-glow-blue pointer-events-none absolute left-[10%] top-[12%] h-[68%] w-[72%] rounded-full bg-brand-blue/10 blur-[80px] dark:bg-brand-blue-light/8" />
+            <div className="hero-glow-orange pointer-events-none absolute bottom-[11%] right-[7%] h-[35%] w-[36%] rounded-full bg-brand-orange/10 blur-[70px]" />
+
+            <div aria-hidden="true" className="hero-orbit hero-orbit-one">
+              <span className="hero-orbit-runner hero-orbit-runner-blue">
+                <span className="hero-orbit-dot hero-orbit-dot-blue" />
+              </span>
+            </div>
+            <div aria-hidden="true" className="hero-orbit hero-orbit-two">
+              <span className="hero-orbit-runner hero-orbit-runner-orange">
+                <span className="hero-orbit-dot hero-orbit-dot-orange" />
+              </span>
+            </div>
+
+            <div className="hero-visual-float relative aspect-[4/3]">
               <Image
                 src="/images/home/solution-portfolio-hero-transparent.webp"
                 alt="Barcode, labeling, RFID and POS solutions portfolio"
