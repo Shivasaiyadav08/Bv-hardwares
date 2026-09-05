@@ -23,7 +23,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { buttonVariants } from '@/components/ui/Button';
 import { mission, values, vision } from '@/lib/data/about';
-import { googleMapsSearchUrl, pricingRequestHref, siteConfig } from '@/lib/site';
+import { googleMapsSearchUrl } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'About Bhagyashree Ventures',
@@ -81,7 +81,7 @@ export default function AboutPage() {
             <span className="font-semibold text-foreground">About</span>
           </nav>
 
-          <div className="grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
+          <div className="grid items-center gap-10 lg:grid-cols-[0.94fr_1.06fr] lg:gap-14">
             <ScrollReveal>
               <div>
                 <Badge className="mb-4">About Bhagyashree Ventures</Badge>
@@ -93,55 +93,75 @@ export default function AboutPage() {
                   We help businesses improve accuracy, efficiency and control with barcode printers, scanners, labels, ribbons, RFID, POS hardware, software and practical support.
                 </p>
 
-                <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-2xl border border-border bg-card/80 p-4 shadow-sm backdrop-blur">
-                    <Boxes size={19} className="text-brand-blue dark:text-brand-blue-light" />
-                    <p className="mt-2 text-sm font-bold text-foreground">Complete portfolio</p>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">Hardware, consumables and software.</p>
-                  </div>
-                  <div className="rounded-2xl border border-border bg-card/80 p-4 shadow-sm backdrop-blur">
-                    <Sparkles size={19} className="text-brand-orange" />
-                    <p className="mt-2 text-sm font-bold text-foreground">Practical integration</p>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">Solutions matched to real workflows.</p>
-                  </div>
-                  <div className="rounded-2xl border border-border bg-card/80 p-4 shadow-sm backdrop-blur">
-                    <LifeBuoy size={19} className="text-brand-blue dark:text-brand-blue-light" />
-                    <p className="mt-2 text-sm font-bold text-foreground">Ongoing support</p>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">Selection, setup and service assistance.</p>
-                  </div>
+                <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-foreground/80">
+                  <span>Hardware</span>
+                  <span className="text-brand-orange">•</span>
+                  <span>Consumables</span>
+                  <span className="text-brand-orange">•</span>
+                  <span>Software</span>
+                  <span className="text-brand-orange">•</span>
+                  <span>Support</span>
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Link href="/products" className={buttonVariants({ size: 'lg' })}>
                     Explore Products <ArrowRight size={17} />
                   </Link>
-                  <Link href={pricingRequestHref} className={buttonVariants({ variant: 'outline', size: 'lg' })}>
-                    Get Pricing
+                  <Link href="/contact" className={buttonVariants({ variant: 'outline', size: 'lg' })}>
+                    Contact Us
                   </Link>
                 </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="left" delay={0.06}>
-              <div className="relative mx-auto w-full max-w-[660px] lg:ml-auto">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[1.8rem] border border-border/90 bg-muted shadow-[0_35px_90px_-50px_rgba(7,17,38,.5)]">
-                  <Image
-                    src="/images/our-commitment.jpg"
-                    alt="Bhagyashree Ventures barcode and labeling solutions"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 55vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#071126]/70 via-transparent to-brand-orange/10" />
-                  <div className="absolute bottom-5 left-5 right-5 flex flex-col gap-3 rounded-2xl border border-white/15 bg-[#071126]/78 p-4 text-white shadow-xl backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:p-5">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">Bengaluru · India</p>
-                      <p className="mt-1 text-base font-bold">Identification, labeling and automation expertise.</p>
+              <div className="relative overflow-hidden rounded-[1.8rem] border border-border/90 bg-card p-6 shadow-[0_35px_90px_-54px_rgba(7,17,38,.46)] sm:p-7 lg:p-8">
+                <div className="pointer-events-none absolute -right-16 -top-20 size-64 rounded-full bg-brand-orange/8 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-20 -left-16 size-72 rounded-full bg-brand-blue/8 blur-3xl dark:bg-brand-blue-light/7" />
+                <div className="relative">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-orange">Why businesses choose BV Hardwares</p>
+                  <h2 className="mt-3 max-w-xl text-[clamp(1.65rem,3vw,2.45rem)] font-bold leading-[1.08] tracking-[-0.035em] text-foreground">
+                    Practical solutions with quality, guidance and support built in.
+                  </h2>
+
+                  <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-2xl border border-border bg-background/75 p-4">
+                      <Boxes size={20} className="text-brand-blue dark:text-brand-blue-light" />
+                      <p className="mt-3 text-sm font-bold text-foreground">Complete portfolio</p>
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">Hardware, consumables and software planned together.</p>
                     </div>
-                    <a href={googleMapsSearchUrl} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-white hover:text-orange-200">
-                      <MapPin size={16} /> Find us
-                    </a>
+                    <div className="rounded-2xl border border-border bg-background/75 p-4">
+                      <Sparkles size={20} className="text-brand-orange" />
+                      <p className="mt-3 text-sm font-bold text-foreground">Practical integration</p>
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">Solutions matched to real operating workflows.</p>
+                    </div>
+                    <div className="rounded-2xl border border-border bg-background/75 p-4">
+                      <LifeBuoy size={20} className="text-brand-blue dark:text-brand-blue-light" />
+                      <p className="mt-3 text-sm font-bold text-foreground">Ongoing support</p>
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">Selection, setup, consumables and service assistance.</p>
+                    </div>
+                    <div className="rounded-2xl border border-border bg-background/75 p-4">
+                      <ShieldCheck size={20} className="text-emerald-600 dark:text-emerald-400" />
+                      <p className="mt-3 text-sm font-bold text-foreground">Certified quality</p>
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">Quality Management System certified to {certification.standard}.</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid gap-3 border-t border-border pt-5 sm:grid-cols-2">
+                    <div className="flex items-center gap-3 rounded-xl bg-muted/45 px-4 py-3">
+                      <MapPin size={18} className="shrink-0 text-brand-blue dark:text-brand-blue-light" />
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">Location</p>
+                        <p className="mt-0.5 text-sm font-bold text-foreground">Bengaluru, India</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 rounded-xl bg-muted/45 px-4 py-3">
+                      <BadgeCheck size={18} className="shrink-0 text-brand-orange" />
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">Quality standard</p>
+                        <p className="mt-0.5 text-sm font-bold text-foreground">{certification.standard}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -338,9 +358,6 @@ export default function AboutPage() {
                 </Card>
               </ScrollReveal>
             ))}
-          </div>
-          <div className="mt-8 rounded-2xl border border-border bg-card p-5 text-sm leading-6 text-muted-foreground shadow-sm">
-            <strong className="text-foreground">Current business address:</strong> {siteConfig.address.line1}, {siteConfig.address.line2}, {siteConfig.address.city} – {siteConfig.address.postalCode}, {siteConfig.address.state}.
           </div>
         </div>
       </section>

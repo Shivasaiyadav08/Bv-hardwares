@@ -18,7 +18,7 @@ export default function Hero() {
     <section className="brand-surface relative overflow-hidden border-b border-border">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-brand-blue/35 via-transparent to-brand-orange/45" />
 
-      <div className="container-shell relative grid items-center gap-10 py-10 sm:py-14 lg:grid-cols-[1.02fr_.98fr] lg:gap-10 lg:py-16 xl:gap-14 xl:py-20">
+      <div className="container-shell relative grid items-center gap-8 py-10 sm:py-14 lg:grid-cols-[1.02fr_.98fr] lg:gap-8 lg:py-16 xl:gap-10 xl:py-20">
         <ScrollReveal>
           <div className="max-w-3xl">
             <Badge className="mb-4">Barcode · Labeling · RFID · POS</Badge>
@@ -52,17 +52,18 @@ export default function Hero() {
         </ScrollReveal>
 
         <ScrollReveal direction="left" delay={0.08}>
-          <div className="relative mx-auto w-full max-w-[620px] lg:mx-0 lg:ml-auto">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.7rem] border border-border/90 bg-card shadow-[0_30px_80px_-46px_rgba(18,55,165,0.5)]">
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-brand-blue/65 via-brand-blue/15 to-brand-orange/65" />
+          <div className="relative mx-auto w-full max-w-[690px] lg:mx-0 lg:ml-auto lg:-mr-4 xl:-mr-8">
+            <div className="pointer-events-none absolute left-[10%] top-[12%] h-[68%] w-[72%] rounded-full bg-brand-blue/10 blur-[80px] dark:bg-brand-blue-light/8" />
+            <div className="pointer-events-none absolute bottom-[11%] right-[7%] h-[35%] w-[36%] rounded-full bg-brand-orange/10 blur-[70px]" />
+            <div className="relative aspect-[4/3]">
               <Image
-                src="/images/home/solution-portfolio-hero.webp"
+                src="/images/home/solution-portfolio-hero-transparent.webp"
                 alt="Barcode, labeling, RFID and POS solutions portfolio"
                 fill
                 priority
                 loading="eager"
                 sizes="(max-width: 1024px) 100vw, 52vw"
-                className="object-cover"
+                className="object-contain drop-shadow-[0_28px_28px_rgba(7,17,38,0.16)] lg:scale-[1.04]"
               />
             </div>
           </div>

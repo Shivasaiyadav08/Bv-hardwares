@@ -31,3 +31,25 @@
 - Direct email actions now open `info@bvhardwares.in` using `mailto:` with a pre-filled subject.
 - The enquiry form no longer requires Resend/API credentials. It prepares the completed form as a `mailto:` message, opens the visitor’s email app, and clearly tells the visitor to review and press Send.
 - Removed the unused Resend API route and Resend dependency from package metadata.
+
+
+## Final partners hero visual
+- Replaced the HPRT product-collage hero visual on `/partners` with a premium business-handshake partnership image.
+- Updated the supporting chips to emphasize trusted partners, technology, local support, and long-term relationships.
+- Added an optimized WebP asset at `public/images/partners/partnership-handshake-premium.webp`.
+
+## 2026-09-05 homepage/about refinement
+
+- Removed the visible card/border treatment around the homepage hero visual and switched to the supplied transparent barcode / labeling / RFID / POS composition so it blends into the hero background.
+- Refreshed the four homepage industry visual assets into consistent 16:10 WebP files.
+- Renamed `Manufacturing & White Goods` to `Pharma & Chemicals` and updated the copy/image to focus on compliant identification, chemical containers and pharmaceutical/controlled workflows.
+- Replaced the aviation visual with baggage-identification imagery that is more directly related to barcode/labeling workflows.
+- Added a dedicated homepage Technology Partners spotlight with a clear `/partners` CTA and an HPRT partner link.
+- Removed the large image from the About page hero and replaced it with a premium trust / capabilities / ISO-quality panel.
+- Removed the repeated current-business-address strip from the About page workflow section.
+
+### Validation
+
+- Parsed all 54 TypeScript / TSX files using the TypeScript compiler API: 0 syntax errors.
+- Checked 154 local `/images/...` source references: 0 missing.
+- `npm ci --offline` could not complete because the environment npm cache is missing `zod-validation-error@4.0.2`; a full Next.js build therefore was not run in this environment.
