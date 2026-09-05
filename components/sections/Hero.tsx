@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Barcode, CheckCircle2, Monitor, Radio, Tags } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { buttonVariants } from '@/components/ui/Button';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -12,6 +12,41 @@ const capabilityItems = [
   'RFID, mobile devices & POS',
   'Software, service & maintenance',
 ];
+
+const solutionNodes = [
+  {
+    label: 'Barcode',
+    detail: 'Printers & Scanners',
+    icon: Barcode,
+    tone: 'blue',
+    position: 'left-[17%] top-[6%]',
+    delay: '-0.8s',
+  },
+  {
+    label: 'RFID',
+    detail: 'Tags & Readers',
+    icon: Radio,
+    tone: 'orange',
+    position: 'right-[10%] top-[12%]',
+    delay: '-2.1s',
+  },
+  {
+    label: 'Labeling',
+    detail: 'Labels & Ribbons',
+    icon: Tags,
+    tone: 'orange',
+    position: 'left-[2%] top-[33%]',
+    delay: '-3.2s',
+  },
+  {
+    label: 'POS',
+    detail: 'Hardware & Software',
+    icon: Monitor,
+    tone: 'blue',
+    position: 'right-0 top-[34%]',
+    delay: '-1.5s',
+  },
+] as const;
 
 export default function Hero() {
   return (
@@ -66,31 +101,68 @@ export default function Hero() {
         </div>
 
         <ScrollReveal direction="left" delay={0.12}>
-          <div className="relative mx-auto w-full max-w-[690px] lg:mx-0 lg:ml-auto lg:-mr-4 xl:-mr-8">
-            <div className="hero-glow-blue pointer-events-none absolute left-[10%] top-[12%] h-[68%] w-[72%] rounded-full bg-brand-blue/10 blur-[80px] dark:bg-brand-blue-light/8" />
-            <div className="hero-glow-orange pointer-events-none absolute bottom-[11%] right-[7%] h-[35%] w-[36%] rounded-full bg-brand-orange/10 blur-[70px]" />
+          <div className="relative mx-auto w-full max-w-[720px] lg:mx-0 lg:ml-auto lg:-mr-4 xl:-mr-8">
+            <div className="hero-glow-blue pointer-events-none absolute left-[9%] top-[8%] h-[72%] w-[78%] rounded-full bg-brand-blue/10 blur-[82px] dark:bg-brand-blue-light/8" />
+            <div className="hero-glow-orange pointer-events-none absolute bottom-[8%] right-[3%] h-[38%] w-[40%] rounded-full bg-brand-orange/10 blur-[72px]" />
 
-            <div aria-hidden="true" className="hero-orbit hero-orbit-one">
-              <span className="hero-orbit-runner hero-orbit-runner-blue">
-                <span className="hero-orbit-dot hero-orbit-dot-blue" />
-              </span>
-            </div>
-            <div aria-hidden="true" className="hero-orbit hero-orbit-two">
-              <span className="hero-orbit-runner hero-orbit-runner-orange">
-                <span className="hero-orbit-dot hero-orbit-dot-orange" />
-              </span>
-            </div>
+            <div className="relative aspect-[4/3] min-h-[360px] sm:min-h-[430px]">
+              <div aria-hidden="true" className="hero-orbit hero-orbit-one">
+                <span className="hero-orbit-runner hero-orbit-runner-blue">
+                  <span className="hero-orbit-dot hero-orbit-dot-blue" />
+                </span>
+                <span className="hero-orbit-runner hero-orbit-runner-blue hero-orbit-runner-offset">
+                  <span className="hero-orbit-dot hero-orbit-dot-blue hero-orbit-dot-small" />
+                </span>
+              </div>
 
-            <div className="hero-visual-float relative aspect-[4/3]">
-              <Image
-                src="/images/home/solution-portfolio-hero-transparent.webp"
-                alt="Barcode, labeling, RFID and POS solutions portfolio"
-                fill
-                priority
-                loading="eager"
-                sizes="(max-width: 1024px) 100vw, 52vw"
-                className="object-contain drop-shadow-[0_28px_28px_rgba(7,17,38,0.16)] lg:scale-[1.04]"
-              />
+              <div aria-hidden="true" className="hero-orbit hero-orbit-two">
+                <span className="hero-orbit-runner hero-orbit-runner-orange">
+                  <span className="hero-orbit-dot hero-orbit-dot-orange" />
+                </span>
+                <span className="hero-orbit-runner hero-orbit-runner-orange hero-orbit-runner-offset-alt">
+                  <span className="hero-orbit-dot hero-orbit-dot-orange hero-orbit-dot-small" />
+                </span>
+              </div>
+
+              <div className="hero-visual-float absolute inset-[16%_3%_0_7%] z-10">
+                <Image
+                  src="/images/home/hero-hardware-stack-v8.webp"
+                  alt="Barcode printer, scanner, labels, POS terminal and RFID hardware"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 52vw"
+                  className="object-contain object-center drop-shadow-[0_28px_30px_rgba(7,17,38,0.16)]"
+                />
+              </div>
+
+              {solutionNodes.map((node, index) => {
+                const Icon = node.icon;
+                const isOrange = node.tone === 'orange';
+
+                return (
+                  <div
+                    key={node.label}
+                    className={`hero-solution-node absolute z-20 ${node.position}`}
+                    style={{ animationDelay: node.delay }}
+                  >
+                    <div className="hero-solution-node-card flex min-w-[150px] items-center gap-2.5 rounded-2xl border border-white/75 bg-white/90 px-3 py-2.5 shadow-[0_10px_30px_rgba(15,23,42,0.10)] backdrop-blur-md sm:min-w-[178px] sm:px-3.5 sm:py-3">
+                      <span
+                        className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl sm:h-11 sm:w-11 ${
+                          isOrange
+                            ? 'bg-brand-orange/10 text-brand-orange'
+                            : 'bg-brand-blue/10 text-brand-blue dark:text-brand-blue-light'
+                        }`}
+                      >
+                        <Icon size={21} strokeWidth={2.2} />
+                      </span>
+                      <span className="leading-tight">
+                        <span className="block text-[13px] font-bold text-foreground sm:text-sm">{node.label}</span>
+                        <span className="mt-0.5 hidden text-[10px] font-medium text-muted-foreground sm:block sm:text-[11px]">{node.detail}</span>
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </ScrollReveal>

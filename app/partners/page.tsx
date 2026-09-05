@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, BadgeCheck, Boxes, ChevronRight, Handshake, Headphones, ShieldCheck } from 'lucide-react';
+import { ArrowRight, BadgeCheck, Boxes, Handshake, Headphones, ShieldCheck } from 'lucide-react';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import PartnersHeroVisual from '@/components/sections/PartnersHeroVisual';
 import { Badge } from '@/components/ui/Badge';
 import { buttonVariants } from '@/components/ui/Button';
 import { hprtProducts, partners } from '@/lib/data/partners';
-
 
 const partnershipBenefits = [
   { label: 'Verified portfolio', icon: BadgeCheck },
@@ -28,31 +27,28 @@ export default function PartnersPage() {
   return (
     <>
       <main className="brand-surface relative overflow-hidden border-b border-border">
-        <div className="container-shell relative py-10 sm:py-14 lg:py-16">
-          <nav aria-label="Breadcrumb" className="mb-7 flex items-center gap-1.5 text-xs font-medium text-muted-foreground sm:text-sm">
-            <Link href="/" className="transition-colors hover:text-foreground">Home</Link>
-            <ChevronRight size={14} />
-            <span className="font-semibold text-foreground">Partners</span>
-          </nav>
-
-          <div className="grid items-center gap-8 lg:grid-cols-[.88fr_1.12fr] lg:gap-10 xl:gap-14">
+        <div className="container-shell relative py-9 sm:py-11 lg:py-12">
+          <div className="grid items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-8 xl:gap-12">
             <ScrollReveal>
-              <div>
+              <div className="max-w-[620px]">
                 <Badge className="mb-4">Technology partnerships</Badge>
-                <h1 className="text-[clamp(2.55rem,5vw,4.55rem)] font-bold leading-[1.01] tracking-[-0.05em] text-foreground">
-                  Proven technology.
-                  <span className="block brand-gradient-text">Real business impact.</span>
+                <h1 className="text-[clamp(2.5rem,4.35vw,3.75rem)] font-bold leading-[1.02] tracking-[-0.045em] text-foreground">
+                  Global technology.
+                  <span className="block brand-gradient-text">Local support.</span>
                 </h1>
-                <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+                <p className="mt-4 max-w-xl text-[15px] leading-7 text-muted-foreground sm:text-base sm:leading-7">
                   We work with technology brands whose printing and AIDC products complement the solutions we support locally, helping customers move from product selection to deployment with clearer guidance.
                 </p>
-                <div className="mt-7 grid gap-3 sm:grid-cols-3">
+
+                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
                   {partnershipBenefits.map(({ label, icon: Icon }) => (
-                    <div key={label} className="flex items-center gap-2.5 rounded-xl bg-background/72 px-3.5 py-3 text-sm font-semibold text-foreground shadow-[0_8px_24px_-18px_rgba(15,23,42,.32)] ring-1 ring-border/70 backdrop-blur-sm">
-                      <Icon size={17} className="text-brand-orange" /> {label}
+                    <div key={label} className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                      <Icon size={17} strokeWidth={2.15} className="text-brand-orange" />
+                      <span>{label}</span>
                     </div>
                   ))}
                 </div>
+
                 <div className="mt-7">
                   <Link href="#partner-portfolio" className={buttonVariants({ className: 'min-w-[180px]' })}>
                     Meet Our Partners <ArrowRight size={16} />

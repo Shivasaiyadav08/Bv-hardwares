@@ -321,3 +321,292 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Homepage solution visual v8: HTML/SVG nodes over a transparent hardware composition. */
+@keyframes hero-solution-node-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -7px, 0); }
+}
+
+.hero-solution-node {
+  animation: hero-solution-node-float 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.hero-solution-node-card {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.hero-solution-node:hover .hero-solution-node-card {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, #2563eb 20%, white);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.13);
+}
+
+.hero-orbit-runner-offset {
+  animation-delay: -6.5s;
+}
+
+.hero-orbit-runner-offset-alt {
+  animation-delay: -4.6s;
+}
+
+.hero-orbit-dot-small {
+  width: 8px;
+  height: 8px;
+  top: -4px;
+  opacity: 0.82;
+}
+
+@media (max-width: 520px) {
+  .hero-solution-node-card {
+    min-width: 132px;
+    padding: 0.55rem 0.65rem;
+    gap: 0.5rem;
+  }
+
+  .hero-solution-node-card > span:first-child {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+}
+
+/* Partners hero visual v9: option-5-inspired orbit system using Lucide/HTML nodes. */
+@keyframes partners-node-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
+}
+
+.partners-orbit {
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  border-radius: 9999px;
+  opacity: 0.8;
+}
+
+.partners-orbit-one {
+  inset: 13% 7% 12% 9%;
+  border: 1px solid color-mix(in srgb, #2563eb 18%, transparent);
+}
+
+.partners-orbit-two {
+  inset: 20% 16% 20% 17%;
+  border: 1px dashed color-mix(in srgb, #f58220 24%, transparent);
+}
+
+.partners-orbit-runner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.partners-orbit-runner-blue {
+  animation: hero-orbit-spin 14s linear infinite;
+}
+
+.partners-orbit-runner-orange {
+  animation: hero-orbit-spin-reverse 11.5s linear infinite;
+}
+
+.partners-orbit-runner-offset {
+  animation-delay: -6.8s;
+}
+
+.partners-orbit-runner-offset-alt {
+  animation-delay: -4.1s;
+}
+
+.partners-orbit-dot {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+}
+
+.partners-orbit-dot-blue {
+  background: #2563eb;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.11), 0 0 20px rgba(37, 99, 235, 0.28);
+}
+
+.partners-orbit-dot-orange {
+  background: #f58220;
+  box-shadow: 0 0 0 6px rgba(245, 130, 32, 0.10), 0 0 18px rgba(245, 130, 32, 0.26);
+}
+
+.partners-orbit-dot-small {
+  width: 8px;
+  height: 8px;
+  top: -4px;
+  opacity: 0.88;
+}
+
+.partners-hub-card {
+  filter: drop-shadow(0 26px 42px rgba(37, 99, 235, 0.10));
+  will-change: transform;
+}
+
+.partners-hub-card::before {
+  content: '';
+  position: absolute;
+  inset: -22%;
+  z-index: -1;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.14), rgba(37, 99, 235, 0.04) 42%, transparent 70%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.partners-hub-card-inner {
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.partners-hub-card-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.055), transparent 44%, rgba(245, 130, 32, 0.045));
+}
+
+.partners-hub-card:hover .partners-hub-card-inner {
+  border-color: color-mix(in srgb, #2563eb 22%, white);
+  box-shadow: 0 28px 64px rgba(15, 23, 42, 0.15);
+}
+
+.partners-hub-icon {
+  position: relative;
+  z-index: 1;
+  transition: transform 220ms ease, background-color 220ms ease;
+}
+
+.partners-hub-card:hover .partners-hub-icon {
+  transform: rotate(-5deg) scale(1.06);
+  background: rgba(37, 99, 235, 0.13);
+}
+
+.partners-node {
+  animation: partners-node-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.partners-node-card {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.partners-node:hover .partners-node-card {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, #2563eb 22%, white);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.14);
+}
+
+@media (max-width: 520px) {
+  .partners-node-card {
+    min-width: 126px;
+    padding: 0.55rem 0.7rem;
+    gap: 0.55rem;
+  }
+
+  .partners-node-card > span:first-child {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+}
+
+/* Partners hero v11: closer match to option 5 reference. */
+@keyframes partners-reference-node-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -7px, 0); }
+}
+
+.partners-reference-node {
+  animation: partners-reference-node-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.partners-reference-hub {
+  filter: drop-shadow(0 22px 36px rgba(37, 99, 235, 0.12));
+  will-change: transform;
+}
+
+.partners-orbit-v11 {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  border-radius: 9999px;
+}
+
+.partners-orbit-v11-outer {
+  inset: 18% 10% 18% 12%;
+  border: 1px solid color-mix(in srgb, #2563eb 16%, transparent);
+}
+
+.partners-orbit-v11-inner {
+  inset: 27% 20% 28% 21%;
+  border: 1px dashed color-mix(in srgb, #f58220 22%, transparent);
+}
+
+.partners-orbit-v11-runner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.partners-orbit-v11-runner-blue {
+  animation: hero-orbit-spin 16s linear infinite;
+}
+
+.partners-orbit-v11-runner-orange {
+  animation: hero-orbit-spin-reverse 12.5s linear infinite;
+}
+
+.partners-orbit-v11-half {
+  animation-delay: -8s;
+}
+
+.partners-orbit-v11-third {
+  animation-delay: -4.3s;
+}
+
+.partners-orbit-v11-dot {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+}
+
+.partners-orbit-v11-dot-blue {
+  background: #2563eb;
+  box-shadow: 0 0 0 5px rgba(37,99,235,.08), 0 0 16px rgba(37,99,235,.24);
+}
+
+.partners-orbit-v11-dot-orange {
+  background: #f58220;
+  box-shadow: 0 0 0 5px rgba(245,130,32,.08), 0 0 16px rgba(245,130,32,.22);
+}
+
+.partners-orbit-v11-dot-small {
+  width: 8px;
+  height: 8px;
+  top: -4px;
+  opacity: .86;
+}
+
+@media (max-width: 520px) {
+  .partners-reference-node > div {
+    width: 78px;
+    height: 78px;
+  }
+}
