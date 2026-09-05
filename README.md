@@ -43,3 +43,6 @@ This means there are no contact-form secrets to add to `.env.local` or Vercel fo
 The canonical domain in `lib/site.ts` is `https://bvhardwares.in`, matching the currently indexed site and business email domain. The app is configured for standard Next.js/Vercel deployment.
 
 See `UPDATE_NOTES.md` for the data audit, migration redirects and pre-launch checklist.
+
+
+---> By team Obblee
