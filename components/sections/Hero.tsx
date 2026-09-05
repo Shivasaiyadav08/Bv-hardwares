@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, PackageSearch, ScanBarcode, Tags } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { buttonVariants } from '@/components/ui/Button';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -52,48 +52,18 @@ export default function Hero() {
         </ScrollReveal>
 
         <ScrollReveal direction="left" delay={0.08}>
-          <div className="relative mx-auto w-full max-w-[560px] lg:mx-0 lg:ml-auto">
+          <div className="relative mx-auto w-full max-w-[620px] lg:mx-0 lg:ml-auto">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[1.7rem] border border-border/90 bg-card shadow-[0_30px_80px_-46px_rgba(18,55,165,0.5)]">
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-brand-blue/65 via-brand-blue/15 to-brand-orange/65" />
-              <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between border-b border-border/80 bg-card/92 px-4 py-3.5 backdrop-blur sm:px-5">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-blue dark:text-brand-blue-light">Solution portfolio</p>
-                  <p className="mt-1 text-sm text-muted-foreground">Hardware + media + software</p>
-                </div>
-                <span className="grid size-10 place-items-center rounded-xl bg-brand-orange/10 text-brand-orange">
-                  <PackageSearch size={22} />
-                </span>
-              </div>
-              <div className="absolute inset-0 top-[73px] bg-gradient-to-br from-brand-blue/5 via-transparent to-brand-orange/8" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-brand-blue/65 via-brand-blue/15 to-brand-orange/65" />
               <Image
-                src="/images/barcode-rfid-printers.jpg"
-                alt="Barcode and RFID printing hardware"
+                src="/images/home/solution-portfolio-hero.webp"
+                alt="Barcode, labeling, RFID and POS solutions portfolio"
                 fill
                 priority
                 loading="eager"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain p-5 pt-20 sm:p-10 sm:pt-24 lg:p-8 lg:pt-24 xl:p-10 xl:pt-24"
+                sizes="(max-width: 1024px) 100vw, 52vw"
+                className="object-cover"
               />
-            </div>
-
-            <div className="absolute bottom-4 left-4 hidden items-center gap-3 rounded-xl border border-border/90 bg-card/95 px-3.5 py-2.5 shadow-lg backdrop-blur lg:flex">
-              <span className="inline-flex size-10 items-center justify-center rounded-xl bg-brand-blue/8 text-brand-blue dark:bg-brand-blue-light/10 dark:text-brand-blue-light">
-                <ScanBarcode size={20} />
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-foreground">Data capture</p>
-                <p className="text-xs text-muted-foreground">Wired, cordless & mobile</p>
-              </div>
-            </div>
-
-            <div className="absolute right-4 top-24 hidden items-center gap-3 rounded-xl border border-border/90 bg-card/95 px-3.5 py-2.5 shadow-lg backdrop-blur xl:flex">
-              <span className="inline-flex size-10 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange">
-                <Tags size={20} />
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-foreground">Labels & ribbons</p>
-                <p className="text-xs text-muted-foreground">Matched to application</p>
-              </div>
             </div>
           </div>
         </ScrollReveal>

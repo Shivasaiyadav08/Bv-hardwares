@@ -31,8 +31,8 @@ export default function WhoWeAre() {
           <div className="relative">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-border/90 bg-muted shadow-[0_30px_80px_-50px_rgba(7,17,38,0.42)]">
               <Image
-                src="/images/about-cover.jpg"
-                alt="Barcode, labeling and automation solutions"
+                src="/images/home/about-business-solutions.webp"
+                alt="Industrial printer, barcode scanner, POS and RFID solutions"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 hover:scale-[1.025]"

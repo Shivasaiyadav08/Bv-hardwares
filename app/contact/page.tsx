@@ -38,7 +38,7 @@ const contactChannels = [
     title: 'Email',
     value: siteConfig.email,
     detail: 'Website enquiries are delivered to this mailbox',
-    href: `mailto:${siteConfig.email}`,
+    href: `mailto:${siteConfig.email}?subject=${encodeURIComponent('BV Hardwares Enquiry')}`,
     action: 'Send an email',
   },
   {
@@ -65,7 +65,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Tell us what needs to be printed, scanned, tagged or tracked."
-        subtitle="Send the requirement through the form and it will be emailed directly to our team. You can also call or WhatsApp us for urgent product enquiries."
+        subtitle="Use the enquiry form to prepare a complete email to our team, or contact us directly by phone, WhatsApp or email for product requirements."
         breadcrumbs={[{ label: 'Contact' }]}
       />
 
@@ -83,7 +83,14 @@ export default function ContactPage() {
                       <Icon size={20} aria-hidden="true" />
                     </span>
                     <p className="mt-5 text-sm font-semibold text-muted-foreground">{channel.title}</p>
-                    <p className="mt-1 break-words text-lg font-bold tracking-[-0.02em] text-foreground">{channel.value}</p>
+                    <a
+                      href={channel.href}
+                      target={external ? '_blank' : undefined}
+                      rel={external ? 'noreferrer' : undefined}
+                      className="mt-1 break-words text-lg font-bold tracking-[-0.02em] text-foreground transition-colors hover:text-brand-blue dark:hover:text-brand-blue-light"
+                    >
+                      {channel.value}
+                    </a>
                     <p className="mt-2 min-h-10 text-sm leading-6 text-muted-foreground">{channel.detail}</p>
                     <a
                       href={channel.href}
