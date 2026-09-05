@@ -87,28 +87,28 @@ export const industries: Industry[] = [
     title: 'Retail & Supermarkets',
     description:
       'Barcode scanning, receipt printing, shelf labels and product identification for store and back-office operations.',
-    image: '/images/industries/retail-supermarkets.webp',
+    image: '/images/industries/retail-supermarkets-v4.webp',
     tag: 'Retail',
   },
   {
     title: 'Logistics & Warehousing',
     description:
       'Shipping labels, mobile data capture, barcode scanning and identification solutions for inventory and dispatch workflows.',
-    image: '/images/industries/logistics-warehousing.webp',
+    image: '/images/industries/logistics-warehousing-v4.webp',
     tag: 'Logistics',
   },
   {
     title: 'Pharma & Chemicals',
     description:
       'Durable identification, compliant labeling and traceability support for pharmaceutical packaging, chemical containers and controlled workflows.',
-    image: '/images/industries/pharma-chemicals.webp',
+    image: '/images/industries/pharma-chemicals-v4.webp',
     tag: 'Pharma',
   },
   {
     title: 'Aviation & Transport',
     description:
       'Printing, scanning and identification hardware for baggage, ticketing, asset tracking and transport-related operational workflows.',
-    image: '/images/industries/aviation-transport-flight.webp',
+    image: '/images/industries/aviation-transport-v4.webp',
     tag: 'Transport',
   },
 ];

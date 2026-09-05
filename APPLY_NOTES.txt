@@ -1,0 +1,16 @@
+BV Hardwares UI patch
+
+Changes:
+- Refined all main BV product cards via components/ui/ProductCard.tsx
+- Refined HPRT partner product cards via components/ui/PartnerProductCard.tsx
+- Removed visible outer card borders and modernized shadows/spacing
+- Rounded product image stages more strongly
+- Preserved verified spec chips, Get Pricing and View Details actions
+- Replaced all four homepage industry images with the latest supplied assets
+- Uses v4 asset filenames to avoid stale Next/Vercel image cache
+
+After copying into the project root:
+  npm run build
+  git add .
+  git commit -m "Refine product cards and industry images"
+  git push upstream main
